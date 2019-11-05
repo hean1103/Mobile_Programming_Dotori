@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Mobile_Programming_Dotori</string>
+    <string name="title_project">Project</string>
+    <string name="title_mypage">Mypage</string>
+    <string name="title_home">Home</string>
+    <string name="title_character">Character</string>
+    <string name="title_store">Store</string>
+</resources>
