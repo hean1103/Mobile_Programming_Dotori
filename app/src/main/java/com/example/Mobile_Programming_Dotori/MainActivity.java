@@ -37,9 +37,9 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.navigation_project: {
-                        Intent intent = new Intent(getApplicationContext(),NewProjectActivity.class);
-                        startActivity(intent);
-//                        transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
+//                        Intent intent = new Intent(getApplicationContext(),NewProjectActivity.class);
+//                        startActivity(intent);
+                        transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.navigation_mypage: {
