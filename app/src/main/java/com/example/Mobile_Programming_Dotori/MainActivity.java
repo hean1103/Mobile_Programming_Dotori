@@ -1,5 +1,7 @@
 package com.example.Mobile_Programming_Dotori;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.FragmentManager;
@@ -35,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.navigation_project: {
-                        transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
+                        Intent intent = new Intent(getApplicationContext(),NewProjectActivity.class);
+                        startActivity(intent);
+//                        transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.navigation_mypage: {

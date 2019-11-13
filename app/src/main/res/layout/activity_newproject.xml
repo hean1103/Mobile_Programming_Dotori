@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15px"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Create Project"
+            android:textColor="#000000"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="100px" />
+
+        <View
+            android:layout_width="140dp"
+            android:layout_height="2dp"
+            android:layout_marginTop="80px"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="#87000000" />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80px"
+        android:layout_marginBottom="40px"
+        android:src="@drawable/man2" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="35dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="60px"
+        android:textColor="#000000"
+        android:text="Project Name"/>
+
+    <EditText
+        android:id="@+id/pname"
+        android:layout_width="950px"
+        android:layout_height="wrap_content"
+        android:textSize="50px"
+        android:layout_marginLeft="15dp"
+        android:hint="Project Name" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="60px"
+        android:layout_marginLeft="15dp"
+        android:textColor="#000000"
+        android:text="Date"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/dateFrom"
+            android:layout_width="155dp"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"
+            android:hint="YYYY/MM/DD"
+            android:gravity="center"
+            android:textSize="50px"
+
+            android:clickable="true"
+            android:editable="false"
+            android:focusable="false"
+            android:inputType="date" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"
+            android:text="To"/>
+        <EditText
+            android:id="@+id/dateTo"
+            android:layout_width="155dp"
+            android:layout_marginLeft="15dp"
+            android:layout_height="wrap_content"
+            android:hint="YYYY/MM/DD"
+            android:clickable="true"
+            android:editable="false"
+            android:gravity="center"
+            android:textSize="50px"
+
+            android:focusable="false"
+            android:inputType="date" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:textSize="60px"
+        android:textColor="#000000"
+        android:layout_marginLeft="15dp"
+        android:text="With Friends"/>
+    <EditText
+        android:id="@+id/fId"
+        android:layout_width="400px"
+        android:layout_height="wrap_content"
+
+        android:textSize="50px"
+        android:layout_marginLeft="15dp"
+        android:hint="Friends ID"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/pAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="#ffd200"
+            android:textStyle="bold"
+            android:textSize="60px"
+            android:textColor="#ffffff"
+            android:text="ADD" />
+    </LinearLayout>
+</LinearLayout>
