@@ -24,7 +24,6 @@ public class ProjectFragment extends Fragment {
         fab.setOnClickListener(new FABClickListener());
 
         return view ;
-//        return inflater.inflate(R.layout.fragment_project, container, false);
     }
 
     class FABClickListener implements  View.OnClickListener{
