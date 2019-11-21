@@ -1,6 +1,7 @@
 package com.example.Mobile_Programming_Dotori;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.PopupMenu;
 import android.view.LayoutInflater;
@@ -68,7 +69,8 @@ public class listViewAdapter extends BaseAdapter {
                                 Toast.makeText(context,"고정 이벤트 추가하기" ,Toast.LENGTH_SHORT).show();
                                 break;
                             case R.id.two:
-                                Toast.makeText(context,"설정 이벤트 추가하기" ,Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(context,SettingProjectActivity.class);
+                                context.startActivity(intent);
                                 break;
                             case R.id.three:
                                 Toast.makeText(context,"삭제 이벤트 추가하기" ,Toast.LENGTH_SHORT).show();
