@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/one"
+        android:title="메인으로고정" />
+
+    <item
+        android:id="@+id/two"
+        android:title="설정" />
+    <item
+        android:id="@+id/three"
+        android:title="지우기" />
+</menu>
