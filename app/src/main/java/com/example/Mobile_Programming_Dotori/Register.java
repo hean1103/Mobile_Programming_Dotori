@@ -35,7 +35,7 @@ public class Register extends AppCompatActivity {
     private AlertDialog dialog;
     private boolean validate = false; //ID체크
 
-
+    public static final String link = "http://13.124.77.84/Register.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -189,7 +189,7 @@ public class Register extends AppCompatActivity {
                     String phone_number = (String) params[3];
                     String birth_date = (String) params[4];
 
-                    String link = "http://192.168.0.5/Register.php";
+
                     String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
                     data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
                     data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8");

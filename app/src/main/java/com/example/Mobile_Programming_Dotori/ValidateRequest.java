@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ValidateRequest extends StringRequest {
 
-    final static private String URL = "http://192.168.0.5/UserValidate.php";
+    public static final String URL = "http://13.124.77.84/UserValidate.php";
     private Map<String, String> parameters;
 
     public ValidateRequest(String id, Response.Listener<String> listener){

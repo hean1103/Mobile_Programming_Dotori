@@ -12,14 +12,35 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 
 public class StoreFragment extends Fragment {
     ListView listView;
 
+    final static private String getPoint_URL = "http://192.168.0.5/getPoint.php";
+    HttpURLConnection conn = null;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+//        try{
+//            URL url = new URL(getPoint_URL);
+//            conn = (HttpURLConnection) url.openConnection();
+//            conn.setDoInput(true);
+//            conn.setDoOutput(true);
+//            conn.setUseCaches(false);
+//        } catch (MalformedURLException ex) {
+//            ex.printStackTrace();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
 
         View v = inflater.inflate(R.layout.fragment_store, container, false);
         listView = (ListView)v.findViewById(R.id.listview);
