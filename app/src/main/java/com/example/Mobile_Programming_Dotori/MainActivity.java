@@ -27,9 +27,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //로그인 한 아이디 값 가져오기
-        Intent intent = getIntent();
-        String id = intent.getStringExtra("id");
-        Log.i("사용자 아이디 : ", id);
+//        Intent intent = getIntent();
+//        String id = intent.getStringExtra("id");
+//        Log.i("사용자 아이디 : ", id);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정

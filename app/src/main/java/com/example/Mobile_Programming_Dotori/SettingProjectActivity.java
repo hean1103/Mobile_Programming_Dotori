@@ -1,24 +1,16 @@
 package com.example.Mobile_Programming_Dotori;
 
-
-        import android.app.DatePickerDialog;
-        import android.content.Intent;
-        import android.icu.text.SimpleDateFormat;
-        import android.os.Bundle;
-        import android.support.v7.app.AppCompatActivity;
-        import android.text.Editable;
-        import android.view.View;
-        import android.widget.Button;
-        import android.widget.DatePicker;
-        import android.widget.EditText;
-        import android.widget.RadioButton;
-        import android.widget.TextView;
-        import android.widget.Toast;
-
-        import org.w3c.dom.Text;
-
-        import java.util.Calendar;
-        import java.util.Locale;
+import android.app.DatePickerDialog;
+import android.icu.text.SimpleDateFormat;
+import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Toast;
+import java.util.Calendar;
+import java.util.Locale;
 
 
 public class SettingProjectActivity extends AppCompatActivity {
@@ -95,7 +87,6 @@ public class SettingProjectActivity extends AppCompatActivity {
                 tmp_from = dateFrom.getText().toString();
                 tmp_to = dateto.getText().toString();
                 tmp_fid = fID.getText().toString();
-
                 if (tmp_name.length() == 0) {
                     Toast.makeText(getApplicationContext(), "프로젝트의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else if (tmp_from.length() == 0) {
