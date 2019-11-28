@@ -1,5 +1,5 @@
 <?php
-	$con = mysqli_connect("127.0.0.1", "root", "1234", "dotori");
+	$con = mysqli_connect("13.124.77.84", "root", "1234", "dotori");
 	mysqli_set_charset($con,"utf8");
 	if (mysqli_connect_errno($con))
 	{
@@ -10,7 +10,7 @@
 	$username = $_POST['name'];
 	$userphone = $_POST['phone_number'];
 	$userbirth = $_POST['birth_date'];
-	$result = mysqli_query($con,"INSERT into info (id,password,name,phone_number,birth_date) values ('$userid','$userpw','$username','$userphone',$userbirth)");
+	$result = mysqli_query($con,"INSERT into info (id,password,name,phone_number,birth_date) values ('$userid','$userpw','$username','$userphone','$userbirth')");
 	  if($result){
 	    echo '회원가입 성공';
 	  }
