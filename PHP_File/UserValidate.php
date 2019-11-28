@@ -1,5 +1,5 @@
 <?php
-     $con = mysqli_connect("127.0.0.1", "root", "1234", "dotori");
+     $con = mysqli_connect("13.124.77.84", "root", "1234", "dotori");
 
      $id = $_POST["id"];
      
