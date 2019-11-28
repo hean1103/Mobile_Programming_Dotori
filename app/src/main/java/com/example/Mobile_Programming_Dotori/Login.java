@@ -31,15 +31,15 @@ public class Login extends AppCompatActivity {
         //로그인클릭
 
 //
-//        LoginButton.setOnClickListener(new View.OnClickListener() {
-//                                              @Override
-//                                              public void onClick(View v) {
-//                                                  Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
-//                                                  Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                                                  startActivity(intent);
-//                                              }
-//                                          }
-//        );
+        LoginButton.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View v) {
+                                                  Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
+                                                  Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                                  startActivity(intent);
+                                              }
+                                          }
+        );
 
         LoginButton.setOnClickListener(new View.OnClickListener() {
                                            @Override

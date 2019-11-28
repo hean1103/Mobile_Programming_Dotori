@@ -7,6 +7,8 @@ import android.icu.text.SimpleDateFormat;
 import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.util.Log;
@@ -115,14 +117,15 @@ public class NewProjectActivity extends AppCompatActivity {
                 } else if (tmp_to.length() == 0) {
                     Toast.makeText(getApplicationContext(), "종료 일자를 정확히 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
-                    insertoToDatabase(tmp_name,tmp_from,tmp_to);
+                    insertoToDatabase("hean",tmp_name,tmp_from,tmp_to);
                 }
             }
         });
 
     }
-    private void insertoToDatabase(String pName, String DFrom, String Dto) {
+    private void insertoToDatabase(String pid,String pName, String DFrom, String Dto) {
         class InsertData extends AsyncTask<String, Void, String> {
+            private ProjectFragment projectFragment = new ProjectFragment();
             ProgressDialog loading;
             @Override
             protected void onPreExecute() {
@@ -138,22 +141,20 @@ public class NewProjectActivity extends AppCompatActivity {
             @Override
             protected String doInBackground(String... params) {
                 //                    String Id = (String) params[0];
-                    String name = (String) params[0];
-                    String From = (String) params[1];
-                    String DTo = (String) params[2];
-                    String link = "http://13.124.77.84/getProject.php";
-                    String data = "pname=" + name + "&datafrom=" + From + "&datato=" + DTo;
+                    String id = (String) params[0];
+                    String name = (String) params[1];
+                    String From = (String) params[2];
+                    String DTo = (String) params[3];
+                    String data = "pid="+ id +"&pname=" + name + "&datafrom=" + From + "&datato=" + DTo;
                 try {
 
                     URL url = new URL("http://13.124.77.84/getProject.php");
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
-
                     httpURLConnection.setReadTimeout(5000);
                     httpURLConnection.setConnectTimeout(5000);
                     httpURLConnection.setRequestMethod("POST");
                     httpURLConnection.connect();
-
 
                     OutputStream outputStream = httpURLConnection.getOutputStream();
                     outputStream.write(data.getBytes("UTF-8"));
@@ -185,7 +186,10 @@ public class NewProjectActivity extends AppCompatActivity {
 
 
                     bufferedReader.close();
-
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.frame_layout, projectFragment);
+                    fragmentTransaction.commit();
 
                     return sb.toString();
 
@@ -199,7 +203,7 @@ public class NewProjectActivity extends AppCompatActivity {
             }
         }
         InsertData task = new InsertData();
-        task.execute( pName,DFrom, Dto);
+        task.execute(pid,pName,DFrom, Dto);
 }
 
 }

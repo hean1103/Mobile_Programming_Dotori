@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_project: {
 //                        Intent intent = new Intent(getApplicationContext(),NewProjectActivity.class);
 //                        startActivity(intent);
+//                        transaction.detach(projectFragment).attach(projectFragment).commit();
                         transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
                         break;
                     }
@@ -66,4 +67,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
