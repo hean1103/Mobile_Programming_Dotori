@@ -29,61 +29,59 @@ public class Login extends AppCompatActivity {
 
 
         //로그인클릭
+        LoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
+                String id = idText.getText().toString();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra("userid",id);
+                startActivity(intent);
+            }
+        });
 
+//        LoginButton.setOnClickListener(new View.OnClickListener() {
+//           @Override
+//           public void onClick(View v) {
+//               final String id = idText.getText().toString();
+//               final String password = pwText.getText().toString();
 //
-        LoginButton.setOnClickListener(new View.OnClickListener() {
-                                              @Override
-                                              public void onClick(View v) {
-                                                  Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
-                                                  Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                                  startActivity(intent);
-                                              }
-                                          }
-        );
-
-        LoginButton.setOnClickListener(new View.OnClickListener() {
-                                           @Override
-                                           public void onClick(View v) {
-                                               final String id = idText.getText().toString();
-                                               final String password = pwText.getText().toString();
-
-                                               Response.Listener<String> responseListener = new Response.Listener<String>() {
-                                                   @Override
-                                                   public void onResponse(String response) {
-                                                       try{
-                                                           JSONObject jsonResponse = new JSONObject(response);
-                                                           boolean success = jsonResponse.getBoolean("success");
-                                                           if(success)
-                                                           {
-                                                               String id = jsonResponse.getString("id");
-                                                               String password = jsonResponse.getString("password");
-
-                                                               Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                                                               Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
-                                                               //로그인한 아이디 전달하기
-                                                               intent.putExtra("id",id);
-                                                               startActivity(intent);
-                                                           }
-                                                           else
-                                                           {
-                                                               AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
-                                                               builder.setMessage("회원정보가 맞지 않습니다.")
-                                                                       .setNegativeButton("다시 시도해 주세요.",null)
-                                                                       .create()
-                                                                       .show();
-                                                           }
-                                                       }catch (Exception e)
-                                                       {
-                                                           e.printStackTrace();
-                                                       }
-                                                   }
-                                               };
-                                               LoginRequest loginRequest = new LoginRequest(id, password, responseListener);
-                                               RequestQueue queue = Volley.newRequestQueue(Login.this);
-                                               queue.add(loginRequest);
-                                           }
-                                       }
-        );
+//               Response.Listener<String> responseListener = new Response.Listener<String>() {
+//                   @Override
+//                   public void onResponse(String response) {
+//                       try{
+//                           JSONObject jsonResponse = new JSONObject(response);
+//                           boolean success = jsonResponse.getBoolean("success");
+//                           if(success)
+//                           {
+//                               String id = jsonResponse.getString("id");
+//                               String password = jsonResponse.getString("password");
+//
+//                               Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+//                               Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
+//                               //로그인한 아이디 전달하기
+//                               intent.putExtra("id",id);
+//                               startActivity(intent);
+//                           }
+//                           else
+//                           {
+//                               AlertDialog.Builder builder = new AlertDialog.Builder(Login.this);
+//                               builder.setMessage("회원정보가 맞지 않습니다.")
+//                                       .setNegativeButton("다시 시도해 주세요.",null)
+//                                       .create()
+//                                       .show();
+//                           }
+//                       }catch (Exception e)
+//                       {
+//                           e.printStackTrace();
+//                       }
+//                   }
+//               };
+//               LoginRequest loginRequest = new LoginRequest(id, password, responseListener);
+//               RequestQueue queue = Volley.newRequestQueue(Login.this);
+//               queue.add(loginRequest);
+//           }
+//        });
 
         //회원가입 클릭
 

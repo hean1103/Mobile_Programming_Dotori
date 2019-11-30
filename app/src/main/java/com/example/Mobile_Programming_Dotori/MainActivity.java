@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private MypageFragment mypageFragment = new MypageFragment();
     private CharacterFragment characterFragment = new CharacterFragment();
     private StoreFragment storeFragment = new StoreFragment();
+    public String id = "jk";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
         //로그인 한 아이디 값 가져오기
 //        Intent intent = getIntent();
-//        String id = intent.getStringExtra("id");
+//        final String id = intent.getStringExtra("userid");
 //        Log.i("사용자 아이디 : ", id);
+
+        //storeFragment로 아이디 정보 전송
+        Bundle bundle = new Bundle(1);
+        bundle.putString("id",id);
+        storeFragment.setArguments(bundle);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정
@@ -45,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.navigation_project: {
 //                        Intent intent = new Intent(getApplicationContext(),NewProjectActivity.class);
 //                        startActivity(intent);
-//                        transaction.detach(projectFragment).attach(projectFragment).commit();
                         transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
                         break;
                     }
@@ -58,7 +63,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.navigation_store: {
-                        transaction.replace(R.id.frame_layout, storeFragment).commitAllowingStateLoss();
+                        transaction.replace(R.id.frame_layout, storeFragment.newInstance(id)).commitAllowingStateLoss();
+//                        transaction.replace(R.id.frame_layout, storeFragment).commitAllowingStateLoss();
+
                         break;
                     }
                 }
@@ -68,4 +75,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+//    public Object getData() {
+//        return id;
+//    }
 }
