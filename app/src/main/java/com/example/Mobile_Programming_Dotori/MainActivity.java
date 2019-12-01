@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.navigation_project: {
+                        //replace를 사용하면 onDestroyView()가 실행됨.
                         transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
                         break;
                     }
@@ -72,7 +73,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-//    public Object getData() {
-//        return id;
-//    }
 }
