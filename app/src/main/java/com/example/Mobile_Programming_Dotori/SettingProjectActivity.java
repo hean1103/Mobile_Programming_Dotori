@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -36,6 +38,7 @@ public class SettingProjectActivity extends AppCompatActivity {
     String tmp_from;
     String tmp_to;
     String tmp_fid;
+    String newName;
 
     EditText pname;
     EditText dateFrom;
@@ -46,6 +49,7 @@ public class SettingProjectActivity extends AppCompatActivity {
     InputStream inputStream = null;
     String line = null, result = null, data[];
     get_data task = new get_data();
+    private ProjectFragment projectFragment = new ProjectFragment();
 
     private  DatePickerDialog.OnDateSetListener listener_from = new DatePickerDialog.OnDateSetListener() {
         @Override
@@ -75,6 +79,7 @@ public class SettingProjectActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settingproject);
         Intent intent = getIntent();
@@ -117,7 +122,12 @@ public class SettingProjectActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "종료 일자를 정확히 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     task.cancel(true);
-                    UpdateToDatabase("hean",tmp_name,tmp_from,tmp_to);
+                    UpdateToDatabase("hean",tmp_name,tmp_from,tmp_to,newName);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    setContentView(R.layout.activity_main);
+                    fragmentTransaction.replace(R.id.frame_layout, projectFragment);
+                    fragmentTransaction.commit();
                 }
             }
         });
@@ -168,7 +178,7 @@ public class SettingProjectActivity extends AppCompatActivity {
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject jsonObject = null;
                 jsonObject = jsonArray.getJSONObject(0);
-
+                newName =  jsonObject.getString("PName");
                 pname.setText(jsonObject.getString("PName"));
                 dateFrom.setText(jsonObject.getString("DateFrom"));
                 dateto.setText(jsonObject.getString("DateTo"));
@@ -179,7 +189,7 @@ public class SettingProjectActivity extends AppCompatActivity {
         }
 
     }
-    private void UpdateToDatabase(String pid,String pName, String datefrom , String dateto) {
+    private void UpdateToDatabase(String pid,String pName, String datefrom , String dateto, String newname) {
         class UpdateData extends AsyncTask<String, Void, String> {
             @Override
             protected void onPreExecute() {
@@ -195,21 +205,17 @@ public class SettingProjectActivity extends AppCompatActivity {
                 String name = (String) params[1];
                 String datefrom = (String) params[2];
                 String dateto = (String) params[3];
+                String newname = (String) params[4];
                 String data = "pid="+ id +"&pname=" + name + "&datefrom=" + datefrom + "&dateto=" + dateto;
                 Log.i("CHECK========", id+"==" + name + "== "+ datefrom + "==" + dateto);
                 try {
-                    URL url = new URL("http://13.124.77.84/projectupdate.php");
+                    URL url = new URL("http://13.124.77.84/projectupdates.php?pid=" + id + "&pname="+ name + "&datefrom=" + datefrom + "&dateto=" + dateto + "&newname="+newname);
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
                     httpURLConnection.setReadTimeout(5000);
                     httpURLConnection.setConnectTimeout(5000);
-                    httpURLConnection.setRequestMethod("POST");
+                    httpURLConnection.setRequestMethod("GET");
                     httpURLConnection.connect();
-
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    outputStream.write(data.getBytes("UTF-8"));
-                    outputStream.flush();
-                    outputStream.close();
 
                     // php문 응답 코드 확인하기
                     int responseStatusCode = httpURLConnection.getResponseCode();
@@ -247,7 +253,7 @@ public class SettingProjectActivity extends AppCompatActivity {
             }
         }
         UpdateData task = new UpdateData();
-        task.execute(pid,pName,datefrom,dateto);
+        task.execute(pid,pName,datefrom,dateto,newname);
     }
 
 }

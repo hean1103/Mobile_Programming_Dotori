@@ -49,11 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
                     case R.id.navigation_project: {
-//                        Intent intent = new Intent(getApplicationContext(),NewProjectActivity.class);
-//                        startActivity(intent);
-//                        transaction.detach(projectFragment).attach(projectFragment).commit();
-//                        transaction.commit();
-
                         transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
                         break;
                     }
@@ -67,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case R.id.navigation_store: {
                         transaction.replace(R.id.frame_layout, storeFragment.newInstance(id)).commitAllowingStateLoss();
-//                        transaction.replace(R.id.frame_layout, storeFragment).commitAllowingStateLoss();
 
                         break;
                     }
