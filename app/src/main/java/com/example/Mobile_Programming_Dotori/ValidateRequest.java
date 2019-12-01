@@ -6,7 +6,7 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-
+//아이디 중복확인 함수
 public class ValidateRequest extends StringRequest {
 
     public static final String URL = "http://13.124.77.84/UserValidate.php";

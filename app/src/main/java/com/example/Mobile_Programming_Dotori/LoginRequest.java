@@ -6,7 +6,11 @@ import com.android.volley.toolbox.StringRequest;
 import java.util.HashMap;
 import java.util.Map;
 
+
+//로그인 요청하는 함수
 public class LoginRequest extends StringRequest {
+
+    //연결할 ip와 php
     public static final String URL = "http://13.124.77.84/Login.php";
     private Map<String, String> parameters;
 
