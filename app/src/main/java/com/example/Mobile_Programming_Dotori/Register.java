@@ -23,7 +23,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 
-//회원가입 구현
 public class Register extends AppCompatActivity {
 
     private EditText editTextId;
@@ -36,7 +35,6 @@ public class Register extends AppCompatActivity {
     private AlertDialog dialog;
     private boolean validate = false; //ID체크
 
-    //연결할 ip와 php
     public static final String link = "http://13.124.77.84/Register.php";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +59,11 @@ public class Register extends AppCompatActivity {
             public void onClick(View view) {
                 final String check_id = editTextId.getText().toString();
 
-                if(validate){
-                    return;//검증 완료
-                }
-
+//                if(validate){
+//                    return;//검증 완료
+//                }
                 //ID 값을 입력하지 않았다면
+
                 if(check_id.equals("")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
                     dialog = builder.setMessage("아이디를 입력해 주세요.")
@@ -119,8 +117,6 @@ public class Register extends AppCompatActivity {
 
 
     }
-
-    //회원가입 유효한지 체크하는 함수
     public void insert(View view) {
         String id = editTextId.getText().toString();
         String password = editTextPw.getText().toString();
@@ -129,7 +125,6 @@ public class Register extends AppCompatActivity {
         String phone_number = editTextPhone.getText().toString();
         String birth_date = editTextBirth.getText().toString();
 
-        //모든 항목을 입력했는지 체크
         if(id.isEmpty() || password.isEmpty() || password_check.isEmpty() || name.isEmpty() || phone_number.isEmpty() || birth_date.isEmpty())
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
@@ -142,10 +137,10 @@ public class Register extends AppCompatActivity {
         {
             if(validate)
             {
-                //비밀번호와 비밀번호체크가 같은지 확인
                 if(password.equals(password_check))
                 {
                     insertToDatabase(id, password, name, phone_number, birth_date);
+//                    finish();
                 }
                 else
                 {
@@ -167,8 +162,6 @@ public class Register extends AppCompatActivity {
         }
 
     }
-
-    //데이터베이스에 정보를 입력하는 함수
     private void insertToDatabase(String id, String password, String name, String phone_number, String birth_date) {
         class InsertData extends AsyncTask<String, Void, String> {
             ProgressDialog loading;
@@ -196,7 +189,7 @@ public class Register extends AppCompatActivity {
                     String phone_number = (String) params[3];
                     String birth_date = (String) params[4];
 
-                    //인코딩하여 php로 전송
+
                     String data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8");
                     data += "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(password, "UTF-8");
                     data += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8");
@@ -217,7 +210,7 @@ public class Register extends AppCompatActivity {
                     StringBuilder sb = new StringBuilder();
                     String line = null;
 
-                    // 서버에서 Response를 읽어옴
+                    // Read Server Response
                     while ((line = reader.readLine()) != null) {
                         sb.append(line);
                         break;
