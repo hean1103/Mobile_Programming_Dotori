@@ -1,4 +1,3 @@
-
 package com.example.Mobile_Programming_Dotori;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -61,12 +60,16 @@ public class StoreFragment extends Fragment {
         //로그인 한 유저 아이디를 메인액티비티로부터 받아옴
         if (getArguments() != null) {
             id = getArguments().getString("userid");
-            Log.i("프래그먼트 아이디 ", id);
+//            Log.i("프래그먼트 아이디 ", id);
         }
 
         //사용자의 포인트 가져오기
         GetPoint task = new GetPoint();
-        task.execute(id);
+        try {
+            sPoint = task.execute(id).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Nullable
@@ -76,6 +79,7 @@ public class StoreFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_store, container, false);
         listView = (ListView)v.findViewById(R.id.listview);
         myPoint = (TextView)v.findViewById(R.id.myPoint);
+
         //캐릭터 리스트
         ArrayList<String[]> items = new ArrayList<>();
         items.add(new String[] {"cat","20"});
@@ -146,7 +150,7 @@ public class StoreFragment extends Fragment {
                         int num = Integer.parseInt(sPoint) - Integer.parseInt(charPrice);
                         BuyItem task = new BuyItem();
                         Toast.makeText(getActivity(),"구매 후 가격 : " + num, Toast.LENGTH_SHORT).show();
-                        task.execute(Integer.toString(num), id);
+                        task.execute(Integer.toString(num), id, items.get(position)[0]);
                     }
                 }
             });
@@ -165,9 +169,10 @@ public class StoreFragment extends Fragment {
             try {
                 //인자로 구매하고 난 후의 가격 받아오기
                 String price = args[0];
-                String id = args[1];
+                String id = args[1]; //업데이트할 사용자의 아이디
+                String myImage = args[2]; //구매한 캐릭터
 
-                String urlPath = "http://13.124.77.84/updatePoint.php?price=" + price + "&id=" + id;
+                String urlPath = "http://13.124.77.84/updatePoint.php?price=" + price + "&id=" + id + "&myImage=" + myImage;
 
                 URL url = new URL(urlPath);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -276,8 +281,9 @@ public class StoreFragment extends Fragment {
         @Override
         protected void onPostExecute(String result){
             myPoint.setText(result);
-            sPoint = result;
+//            sPoint = result;
         }
     }
 
 }
+

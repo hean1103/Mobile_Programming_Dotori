@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         Bundle bundle = new Bundle(1);
         bundle.putString("id",id);
         storeFragment.setArguments(bundle);
+        characterFragment.setArguments(bundle);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정
@@ -58,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     case R.id.navigation_character: {
-                        transaction.replace(R.id.frame_layout, characterFragment).commitAllowingStateLoss();
+                        transaction.replace(R.id.frame_layout, characterFragment.newInstance(id)).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.navigation_store: {
