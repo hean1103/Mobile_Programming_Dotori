@@ -108,7 +108,7 @@ public class NewProjectActivity extends AppCompatActivity {
                 tmp_name = pname.getText().toString();
                 tmp_from = dateFrom.getText().toString();
                 tmp_to = dateto.getText().toString();
-//                tmp_fid = fID.getText().toString();
+//
 
                 if (tmp_name.length() == 0) {
                     Toast.makeText(getApplicationContext(), "프로젝트의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
@@ -186,10 +186,7 @@ public class NewProjectActivity extends AppCompatActivity {
 
 
                     bufferedReader.close();
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.frame_layout, projectFragment);
-                    fragmentTransaction.commit();
+                    finish();
 
                     return sb.toString();
 

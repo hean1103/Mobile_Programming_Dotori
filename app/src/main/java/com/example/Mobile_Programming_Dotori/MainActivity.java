@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 //                        Intent intent = new Intent(getApplicationContext(),NewProjectActivity.class);
 //                        startActivity(intent);
 //                        transaction.detach(projectFragment).attach(projectFragment).commit();
+//                        transaction.commit();
                         transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
                         break;
                     }
