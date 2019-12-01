@@ -85,7 +85,6 @@ public class NewProjectActivity extends AppCompatActivity {
         dateto = (EditText) findViewById(R.id.dateTo);
         fID  = (EditText) findViewById(R.id.fId);
 
-
         dateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

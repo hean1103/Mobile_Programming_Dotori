@@ -146,8 +146,6 @@ public class MypageFragment extends Fragment {
             }
         });
 
-
-
         return root;
     }
 }

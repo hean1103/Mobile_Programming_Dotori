@@ -1,4 +1,5 @@
 package com.example.Mobile_Programming_Dotori;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -16,7 +17,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,6 +33,9 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+
+import static android.content.ContentValues.TAG;
 
 public class ProjectFragment extends Fragment {
 private PopupMenu popup;
@@ -40,7 +47,7 @@ private PopupMenu popup;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_project, null);
+        View view = inflater.inflate(R.layout.fragment_project, container, false);
         listview = (ListView) view.findViewById(R.id.listview1);
         adapter = new listViewAdapter();
         listview.setAdapter(adapter);
@@ -51,6 +58,7 @@ private PopupMenu popup;
         fab.setOnClickListener(new FABClickListener());
 
         return view ;
+
     }
 
     class FABClickListener implements  View.OnClickListener{
@@ -62,12 +70,8 @@ private PopupMenu popup;
     }
 
     public class get_data extends AsyncTask<String, Void, String> {
-        @Override
         protected void onPreExecute() {
-            super.onPreExecute();
-//            Refresh();
         }
-
 
         @Override
         protected String doInBackground (String...params){
@@ -77,58 +81,71 @@ private PopupMenu popup;
             URL url = new URL(uri);
             HttpURLConnection httpsURLConnection = (HttpURLConnection) url.openConnection();
             httpsURLConnection.setRequestMethod("GET");
+            httpsURLConnection.setReadTimeout(5000);
+            httpsURLConnection.setConnectTimeout(5000);
+            httpsURLConnection.connect();
 
-            inputStream = new BufferedInputStream(httpsURLConnection.getInputStream());
+            int responseStatusCode = httpsURLConnection.getResponseCode();
+            Log.d(TAG, "response code - " + responseStatusCode);
+
+            InputStream inputStream;
+            if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                inputStream = httpsURLConnection.getInputStream();
+                Log.i("http상태 코드 : " , "HTTP_OK");
+            }
+            else{
+                inputStream = httpsURLConnection.getErrorStream();
+                Log.i("http상태 코드 : " , "NOT HTTP_OK");
+            }
+
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+            StringBuilder sb = new StringBuilder();
+            String line;
+
+            while((line = bufferedReader.readLine()) != null){
+                Log.i("php 내용 가져오기 : ", line);
+                sb.append(line);
+            }
+
+            bufferedReader.close();
+            Log.i("실행 결과 : ", sb.toString());
+            return sb.toString().trim();
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            return e.getMessage();
         } catch (IOException e) {
             Log.e("log_tag1", "Error converting result "+e.toString());
-            e.printStackTrace();
+            return e.getMessage();
         }
-
-        // read input stream into a string
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder stringBuilder = new StringBuilder();
-
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line + "\n");
-            }
-
-            inputStream.close();
-            result = stringBuilder.toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        // Parse json data
-        try {
-
-            JSONArray jsonArray = new JSONArray(result);
-            JSONObject jsonObject = null;
-            data = new String[jsonArray.length()];
-            for (int i = 0; i < jsonArray.length(); i++) {
-                jsonObject = jsonArray.getJSONObject(i);
-                data[i] = jsonObject.getString("PName"); // column name
-            }
-
-            for(int k = 0 ; k < data.length ; k++) {
-
-                adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
-                data[k], "Account Circle Black 36dp") ;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return result;
     }
 
 
+        @Override
+        protected void onPostExecute(String result){
+            adapter = new listViewAdapter();
+            listview.setAdapter(adapter);
+            // Parse json data
+            try {
+
+                JSONArray jsonArray = new JSONArray(result);
+                JSONObject jsonObject = null;
+                data = new String[jsonArray.length()];
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    jsonObject = jsonArray.getJSONObject(i);
+                    data[i] = jsonObject.getString("PName"); // column name
+                    Log.i("php 내용 가져오기============== : ", data[i]);
+                }
+
+                for(int k = 0 ; k < data.length ; k++) {
+                    adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
+                            data[k], "Account Circle Black 36dp") ;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
-//
-//    private void Refresh() {
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.detach(this).attach(this).commit();
-//    }
+
 }

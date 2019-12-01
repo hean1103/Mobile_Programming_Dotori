@@ -58,9 +58,6 @@ public class StoreFragment extends Fragment {
             Log.i("프래그먼트 아이디 ", id);
         }
 
-        //사용자의 포인트 가져오기
-        GetPoint task = new GetPoint();
-        task.execute(id);
 
     }
 
@@ -71,7 +68,9 @@ public class StoreFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_store, container, false);
         listView = (ListView)v.findViewById(R.id.listview);
         myPoint = (TextView)v.findViewById(R.id.myPoint);
-
+        //사용자의 포인트 가져오기
+        GetPoint task = new GetPoint();
+        task.execute(id);
         //캐릭터 리스트
         ArrayList<String> items = new ArrayList<>();
         items.add("cat");
@@ -180,7 +179,6 @@ public class StoreFragment extends Fragment {
             }
 
         }
-
 
         @Override
         protected void onPostExecute(String result){
