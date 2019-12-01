@@ -69,11 +69,12 @@ public class Login extends AppCompatActivity {
                            boolean success = jsonResponse.getBoolean("success");
                            if(success)
                            {
-                               String id = jsonResponse.getString("id");
-                               String password = jsonResponse.getString("password");
+//                               String id = jsonResponse.getString("id");
+//                               String password = jsonResponse.getString("password");
 
                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
+                               intent.putExtra("id",id);
                                startActivity(intent);
                            }
                            else
