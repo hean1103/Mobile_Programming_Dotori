@@ -7,11 +7,14 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +27,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MypageFragment extends Fragment {
     String myJSON;
 
@@ -34,7 +39,7 @@ public class MypageFragment extends Fragment {
     private static final String TAG_Birth = "birth_date";
     private static final String TAG_Name = "name";
     private static final String TAG_Point = "point";
-
+    private static final String TAG_Myimage = "myimage";
 
     TextView vID;
     TextView vPhone;
@@ -42,7 +47,7 @@ public class MypageFragment extends Fragment {
     TextView vName;
     TextView vPoint;
     Button Logout;
-
+    ImageView vImage;
     ArrayList<HashMap<String,String>> personList;
 
 
@@ -59,11 +64,15 @@ public class MypageFragment extends Fragment {
         vPoint = (TextView) root.findViewById(R.id.my_point);
 
         Logout = (Button) root.findViewById(R.id.btn1);
-
+        vImage = (ImageView) root.findViewById(R.id.imageView);
         //공통으로 사용되는 id 변수 불러오기
         SharedPreferences pref = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
         final String g_id = pref.getString("Globalid","");
-        //final String g_id = "jk";
+
+
+
+
+
 
         personList = new ArrayList<HashMap<String, String>>();
 
@@ -110,6 +119,7 @@ public class MypageFragment extends Fragment {
                         String phone_number = c.getString(TAG_Phone);
                         String birth_date = c.getString(TAG_Birth);
                         String point = c.getString(TAG_Point);
+                        String vimg = c.getString(TAG_Myimage);
 
                         HashMap<String,String> persons = new HashMap<String,String>();
 
@@ -119,6 +129,23 @@ public class MypageFragment extends Fragment {
                             vName.setText(name);
                             vBirth.setText(birth_date);
                             vPhone.setText(phone_number);
+                            if(vimg.equals("acron"))
+                                vImage.setImageResource(R.drawable.acorn);
+                            else if (vimg.equals("cat"))
+                                vImage.setImageResource(R.drawable.cat);
+                            else if (vimg.equals("ducky"))
+                                vImage.setImageResource(R.drawable.ducky);
+                            else if (vimg.equals("penguin"))
+                                vImage.setImageResource(R.drawable.penguin);
+                            else if (vimg.equals("squirrel"))
+                                vImage.setImageResource(R.drawable.squirrel);
+                            else if (vimg.equals("turtle"))
+                                vImage.setImageResource(R.drawable.turtle);
+                            else if (vimg.equals("dog"))
+                                vImage.setImageResource(R.drawable.dog);
+                            else
+                                Toast.makeText(getActivity(), "이미지 없음", Toast.LENGTH_LONG).show();
+
                             break;
                         }
 
@@ -146,6 +173,8 @@ public class MypageFragment extends Fragment {
             }
         });
 
+
         return root;
     }
+
 }
