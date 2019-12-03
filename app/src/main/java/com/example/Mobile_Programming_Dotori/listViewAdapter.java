@@ -77,6 +77,7 @@ public class listViewAdapter extends BaseAdapter {
                             case R.id.two: // 프로젝트의 정보를 수정하는 기능
                                 Intent intent = new Intent(context,SettingProjectActivity.class);
                                 intent.putExtra("pname",pname); //settingProjectActovity.java로 프로젝트 이름 정보를 넘겨줌
+                                intent.putExtra("pid", pid);
                                 context.startActivity(intent); //액티비티로 화면 전환
                                 break;
                             case R.id.three: // 프로젝트 삭제 기능

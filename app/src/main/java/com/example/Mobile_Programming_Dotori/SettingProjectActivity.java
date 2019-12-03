@@ -42,6 +42,7 @@ public class SettingProjectActivity extends AppCompatActivity {
     EditText dateFrom;
     EditText dateto;
     EditText fID;
+    public String getid;
 
     Calendar myCalendar = Calendar.getInstance(); // DatePicker를 사용하기 위해 달력 선언
     InputStream inputStream = null;
@@ -84,7 +85,8 @@ public class SettingProjectActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settingproject); // layout 연결
         Intent intent = getIntent();
         String getname= intent.getStringExtra("pname"); // 설정을 수정할 프로젝트 이름을 얻어옴.
-        task.execute("hean",getname); // 프로젝트 이름과 회원 아이디를 매개변수로 지정.
+        getid= intent.getStringExtra("pid"); // 설정을 수정할 프로젝트 이름을 얻어옴.
+        task.execute(getid,getname); // 프로젝트 이름과 회원 아이디를 매개변수로 지정.
 
         pname = (EditText) findViewById(R.id.pname);
         dateFrom = (EditText) findViewById(R.id.dateFrom);
@@ -126,11 +128,11 @@ public class SettingProjectActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "종료 일자를 정확히 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else { // 모든 조건이 만족한 경우
                     task.cancel(true); // 프로젝트 정보를 가져오기 위한 AsyncTask 를 종료함
-                    UpdateToDatabase("hean",tmp_name,tmp_from,tmp_to,newName); // 프로젝트 업데이트를 위한 매개변수로 설정.
+                    UpdateToDatabase(getid,tmp_name,tmp_from,tmp_to,newName); // 프로젝트 업데이트를 위한 매개변수로 설정.
                     FragmentManager fragmentManager = getSupportFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     setContentView(R.layout.activity_main);
-                    fragmentTransaction.replace(R.id.frame_layout, projectFragment); // 수정이 끝난 후 프래그먼트를 업데이트 시키기 위한 코드
+                    fragmentTransaction.replace(R.id.frame_layout, projectFragment.newInstance(getid)); // 수정이 끝난 후 프래그먼트를 업데이트 시키기 위한 코드
                     fragmentTransaction.commit();
                 }
             }
