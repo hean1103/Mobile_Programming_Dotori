@@ -109,7 +109,7 @@ public class listAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수.
-    public void addItem(Drawable icon, String title, String desc, boolean check) {
+    public void addItem(Drawable icon, String title, String desc, int check) {
         listItem item = new listItem();
 
         item.setIcon(icon);
@@ -189,6 +189,4 @@ public class listAdapter extends BaseAdapter {
         DeleteData task = new DeleteData();
         task.execute(pid,pName); // 실행
     }
-
-
 }
