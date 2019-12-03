@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.content.SharedPreferences;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -29,6 +30,14 @@ import static android.content.ContentValues.TAG;
 
 public class ListFragment extends Fragment {
     String data[];
+    int[] checkData;
+
+
+
+    SharedPreferences pref = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+    final String id = pref.getString("Globalid","");
+    String PName;
+
     ListView listview ;
     listAdapter adapter;
 
@@ -41,7 +50,7 @@ public class ListFragment extends Fragment {
         listview.setAdapter(adapter);
 
         get_data task = new get_data(); // 프로젝트 리스트들을 얻기 위한 객체
-        task.execute("hean"); // 회원 아이디를 변수로 넘겨줌
+        task.execute(id,PName); //@@@@@@@@@@
         FloatingActionButton fab = view.findViewById(R.id.fab_sub1); // 새로운 프로젝트 추가를 위한 + 버튼
         fab.setOnClickListener(new FABClickListener());
 
@@ -50,14 +59,16 @@ public class ListFragment extends Fragment {
     }
 
     class FABClickListener implements  View.OnClickListener{
-        @Override
+            @Override
         // + 버튼을 클릭시 NewListActivity.java로 화면 전환
         public void onClick(View v) {
-            Intent intent = new Intent(getActivity(),NewListActivity.class);
+            Intent intent = new Intent(getActivity(),NewListActivity.class); //회원아이디
+            intent.putExtra("pid", id); // 아이디 넘기기 //@@@@@@@@@@@
+            intent.putExtra("pName", PName); // 아이디 넘기기 //@@@@@@@@@@@
             startActivity(intent);
         }
     }
-    // 프로젝트 리스트들을 얻기 위한 함수
+    //리스트들을 얻기 위한 함수
     public class get_data extends AsyncTask<String, Void, String> {  // 비동기 클래스
         protected void onPreExecute() { // 실행전 수행되는 함수
         }
@@ -66,7 +77,8 @@ public class ListFragment extends Fragment {
         protected String doInBackground (String...params){
             try {
                 String id = params[0];
-                String uri = "http://13.124.77.84/projectlist.php?PID="+id; // 회원 아이디를 변수로 php에 넘겨줌
+                String PName = params[1];
+                String uri = "http://13.124.77.84/getprojectlist.php?PID="+id + "&PName=" + PName; // 회원 아이디를 변수로 php에 넘겨줌 디비 php 경로
                 URL url = new URL(uri);
                 // httpURLConnection을 통해 data를 가져온다.
                 HttpURLConnection httpsURLConnection = (HttpURLConnection) url.openConnection();
@@ -128,22 +140,22 @@ public class ListFragment extends Fragment {
                 data = new String[jsonArray.length()]; // 배열의 길이만큼 크기 선언
 
                 for (int i = 0; i < jsonArray.length(); i++) {
-                    // 배열을 하나씩 객체로 받아 그 안의 PName이라고 저장되있는 값을 data배열에 넣어줌 == 프로젝트 이름
+                    // 배열을 하나씩 객체로 받아 그 안의 ListName이라고 저장되있는 값을 data배열에 넣어줌 == 프로젝트 이름
                     jsonObject = jsonArray.getJSONObject(i);
-                    data[i] = jsonObject.getString("PName"); // column name
-                    // 프로젝트 이름 확인 Log
+                    data[i] = jsonObject.getString("ListName"); // column name
+                    checkData[i] = jsonObject.getInt("CheckBox"); //@@@@@@@@@@@@@@
                     Log.i("php 내용 가져오기 : ", data[i]);
                 }
 
                 for(int k = 0 ; k < data.length ; k++) {
                     //data 배열의 크기만큼 for문을 돌며 커스텀 listview 생성
-                    adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
-                            data[k], "Account Circle Black 36dp") ;
+                    adapter.addItem( ContextCompat.getDrawable( getActivity(), R.drawable.menu ),
+                            data[k], "Account Circle Black 36dp", checkData[k] ) ; //@@@@@@@@@@@@@@@@@@@@
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
 }
