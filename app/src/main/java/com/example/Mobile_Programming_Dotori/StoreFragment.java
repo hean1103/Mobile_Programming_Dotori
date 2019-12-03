@@ -60,7 +60,6 @@ public class StoreFragment extends Fragment {
         //로그인 한 유저 아이디를 메인액티비티로부터 받아옴
         if (getArguments() != null) {
             id = getArguments().getString("userid");
-//            Log.i("프래그먼트 아이디 ", id);
         }
 
         //사용자의 포인트 가져오기
@@ -173,7 +172,6 @@ public class StoreFragment extends Fragment {
                 String myImage = args[2]; //구매한 캐릭터
 
                 String urlPath = "http://13.124.77.84/updatePoint.php?price=" + price + "&id=" + id + "&myImage=" + myImage;
-
                 URL url = new URL(urlPath);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
                 conn.setRequestMethod("GET");
@@ -235,6 +233,7 @@ public class StoreFragment extends Fragment {
                 String id = args[0];
 
                 String urlPath = "http://13.124.77.84/getPoint.php?id=" + id;
+
 
                 URL url = new URL(urlPath);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();

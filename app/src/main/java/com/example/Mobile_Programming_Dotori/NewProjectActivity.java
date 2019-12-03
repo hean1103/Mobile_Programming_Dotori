@@ -46,6 +46,10 @@ public class NewProjectActivity extends AppCompatActivity {
     EditText dateto;
     EditText fID;
 
+    public String id;
+
+    private ProjectFragment projectFragment = new ProjectFragment();
+
     Calendar myCalendar = Calendar.getInstance();
     // 달력을 통한 날짜 설정 기능
     private  DatePickerDialog.OnDateSetListener listener_from = new DatePickerDialog.OnDateSetListener() {
@@ -78,6 +82,10 @@ public class NewProjectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newproject); // layout 연결
+        //로그인 한 아이디 값 가져오기
+        Intent intent = getIntent();
+        final String id = intent.getStringExtra("id");
+
         //EditText에 입력된 값들을 가져옴
         pname = (EditText) findViewById(R.id.pname);
         dateFrom = (EditText) findViewById(R.id.dateFrom);
@@ -116,7 +124,12 @@ public class NewProjectActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "종료 일자를 정확히 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     // 새로운 프로젝트 정보를 DB에 넣기 위한 기능 ( ID와 프로젝트 이름, 시작 날짜, 종료 날짜를 매개변수로 설정)
-                    insertoToDatabase("hean",tmp_name,tmp_from,tmp_to);
+                    insertoToDatabase(id,tmp_name,tmp_from,tmp_to);
+                    FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    setContentView(R.layout.activity_main);
+                    fragmentTransaction.replace(R.id.frame_layout, projectFragment.newInstance(id)); // 추가가 끝난 후 프래그먼트를 업데이트 시키기 위한 코드
+                    fragmentTransaction.commit();
                 }
             }
         });
@@ -187,7 +200,6 @@ public class NewProjectActivity extends AppCompatActivity {
 
 
                     bufferedReader.close();
-                    finish();
                     // onPseExecute로 결과값 전달
                     return sb.toString();
 

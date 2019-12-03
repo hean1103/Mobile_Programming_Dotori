@@ -32,6 +32,7 @@ public class listViewAdapter extends BaseAdapter {
 
     private PopupMenu popup; //리스트 뷰에서 옵션 메뉴 기능을 하기 위한 popup
     public String pname;
+    public String pid;
     private ArrayList<listViewItem> listViewItemList = new ArrayList<listViewItem>() ; // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
 
     @Override
@@ -79,7 +80,7 @@ public class listViewAdapter extends BaseAdapter {
                                 context.startActivity(intent); //액티비티로 화면 전환
                                 break;
                             case R.id.three: // 프로젝트 삭제 기능
-                                DeleteToDatabase("hean",pname); // 프로젝트 삭제를 위하여 ID와 프로젝트 이름을 매개변수로 설정.
+                                DeleteToDatabase(pid,pname); // 프로젝트 삭제를 위하여 ID와 프로젝트 이름을 매개변수로 설정.
                                 break;
                         }
                         return false;
@@ -103,12 +104,12 @@ public class listViewAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수.
-    public void addItem(Drawable icon, String title, String desc) {
+    public void addItem(Drawable icon, String title, String desc, String id) {
         listViewItem item = new listViewItem();
 
         item.setIcon(icon);
         item.setTitle(title);
-
+        pid = id;
         listViewItemList.add(item);
     }
     //php를 통해 DB와 연동하여 프로젝트를 삭제하는 함수

@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private MypageFragment mypageFragment = new MypageFragment();
     private CharacterFragment characterFragment = new CharacterFragment();
     private StoreFragment storeFragment = new StoreFragment();
-    public String id = "jk";
+    public String id ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +28,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //로그인 한 아이디 값 가져오기
-//        Intent intent = getIntent();
-//        final String id = intent.getStringExtra("userid");
-//        Log.i("사용자 아이디 : ", id);
+        Intent intent = getIntent();
+        final String id = intent.getStringExtra("id");
+        Log.i("사용자 아이디 : ", id);
 
         //storeFragment로 아이디 정보 전송
         Bundle bundle = new Bundle(1);
         bundle.putString("id",id);
         storeFragment.setArguments(bundle);
         characterFragment.setArguments(bundle);
+        projectFragment.setArguments(bundle);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, projectFragment.newInstance(id)).commitAllowingStateLoss();
 
         // bottomNavigationView의 아이템이 선택될 때 호출될 리스너 등록
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_project: {
                         //replace를 사용하면 onDestroyView()가 실행됨.
-                        transaction.replace(R.id.frame_layout, projectFragment).commitAllowingStateLoss();
+                        transaction.replace(R.id.frame_layout, projectFragment.newInstance(id)).commitAllowingStateLoss();
                         break;
                     }
                     case R.id.navigation_mypage: {

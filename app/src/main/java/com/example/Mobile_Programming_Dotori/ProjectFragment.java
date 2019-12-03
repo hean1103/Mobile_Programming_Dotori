@@ -27,9 +27,31 @@ import java.net.URL;
 import static android.content.ContentValues.TAG;
 
 public class ProjectFragment extends Fragment {
-    String data[];
+    public String data[], id;
     ListView listview ;
     listViewAdapter adapter;
+
+
+    public static ProjectFragment newInstance(String param) {
+        Bundle args = new Bundle();
+        args.putString("userid", param);
+
+        ProjectFragment fragment = new ProjectFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        //로그인 한 유저 아이디를 메인액티비티로부터 받아옴
+        if (getArguments() != null) {
+            id = getArguments().getString("userid");
+        }
+        get_data task = new get_data(); // 프로젝트 리스트들을 얻기 위한 객체
+        task.execute(id); // 회원 아이디를 변수로 넘겨줌
+    }
 
     @Nullable
     @Override
@@ -39,8 +61,6 @@ public class ProjectFragment extends Fragment {
         adapter = new listViewAdapter();
         listview.setAdapter(adapter);
 
-        get_data task = new get_data(); // 프로젝트 리스트들을 얻기 위한 객체
-        task.execute("hean"); // 회원 아이디를 변수로 넘겨줌
         FloatingActionButton fab = view.findViewById(R.id.fab_sub1); // 새로운 프로젝트 추가를 위한 + 버튼
         fab.setOnClickListener(new FABClickListener());
 
@@ -53,6 +73,7 @@ public class ProjectFragment extends Fragment {
         // + 버튼을 클릭시 NewProjectActivity.java로 화면 전환
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(),NewProjectActivity.class);
+            intent.putExtra("id", id);
             startActivity(intent);
         }
     }
@@ -67,6 +88,7 @@ public class ProjectFragment extends Fragment {
             String id = params[0];
             String uri = "http://13.124.77.84/projectlist.php?PID="+id; // 회원 아이디를 변수로 php에 넘겨줌
             URL url = new URL(uri);
+            Log.i("=========================", uri);
             // httpURLConnection을 통해 data를 가져온다.
             HttpURLConnection httpsURLConnection = (HttpURLConnection) url.openConnection();
             httpsURLConnection.setRequestMethod("GET"); //url 메소드를 post로 결정
@@ -137,7 +159,7 @@ public class ProjectFragment extends Fragment {
                 for(int k = 0 ; k < data.length ; k++) {
                     //data 배열의 크기만큼 for문을 돌며 커스텀 listview 생성
                     adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
-                            data[k], "Account Circle Black 36dp") ;
+                            data[k], "Account Circle Black 36dp", id) ;
                 }
             } catch (Exception e) {
                 e.printStackTrace();
