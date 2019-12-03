@@ -70,7 +70,6 @@ public class NewListActivity extends AppCompatActivity {
                 }
             }
         });
-
     }
     //서버의 PHP문을 사용하여 DB에 데이터를 삽입하는 함수
     private void insertoToDatabase(String pid,String pName, String memo) {
