@@ -106,6 +106,9 @@ public class CharacterFragment extends Fragment {
             else if("dog".equals(items.get(position))) {
                 imageView.setImageResource(R.drawable.dog);
             }
+            else if("squirrel".equals(items.get(position))) {
+                imageView.setImageResource(R.drawable.squirrel_);
+            }
             else if("ducky".equals(items.get(position))) {
                 imageView.setImageResource(R.drawable.ducky);
             }

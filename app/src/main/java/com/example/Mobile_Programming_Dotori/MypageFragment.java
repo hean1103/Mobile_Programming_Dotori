@@ -71,9 +71,6 @@ public class MypageFragment extends Fragment {
 
 
 
-
-
-
         personList = new ArrayList<HashMap<String, String>>();
 
         class GetDataJSON extends AsyncTask<String,Void,String> {
@@ -129,26 +126,22 @@ public class MypageFragment extends Fragment {
                             vName.setText(name);
                             vBirth.setText(birth_date);
                             vPhone.setText(phone_number);
-                            if(vimg.equals("acron"))
-                                vImage.setImageResource(R.drawable.acorn);
-                            else if (vimg.equals("cat"))
-                                vImage.setImageResource(R.drawable.cat);
+                            if (vimg.equals("cat"))
+                                vImage.setImageResource(R.drawable.bigcat);
                             else if (vimg.equals("ducky"))
-                                vImage.setImageResource(R.drawable.ducky);
+                                vImage.setImageResource(R.drawable.bigducky);
                             else if (vimg.equals("penguin"))
-                                vImage.setImageResource(R.drawable.penguin);
+                                vImage.setImageResource(R.drawable.bigpenguin);
                             else if (vimg.equals("squirrel"))
-                                vImage.setImageResource(R.drawable.squirrel);
+                                vImage.setImageResource(R.drawable.bigsquirrel);
                             else if (vimg.equals("turtle"))
-                                vImage.setImageResource(R.drawable.turtle);
+                                vImage.setImageResource(R.drawable.bigturtle);
                             else if (vimg.equals("dog"))
-                                vImage.setImageResource(R.drawable.dog);
+                                vImage.setImageResource(R.drawable.bigdog);
                             else
                                 Toast.makeText(getActivity(), "이미지 없음", Toast.LENGTH_LONG).show();
-
                             break;
                         }
-
                     }
 
                 } catch(JSONException e)
