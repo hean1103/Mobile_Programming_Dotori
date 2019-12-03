@@ -135,11 +135,11 @@ public class ListFragment extends Fragment {
                     Log.i("php 내용 가져오기 : ", data[i]);
                 }
 
-                /*for(int k = 0 ; k < data.length ; k++) {
+                for(int k = 0 ; k < data.length ; k++) {
                     //data 배열의 크기만큼 for문을 돌며 커스텀 listview 생성
                     adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
                             data[k], "Account Circle Black 36dp") ;
-                }*/
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
