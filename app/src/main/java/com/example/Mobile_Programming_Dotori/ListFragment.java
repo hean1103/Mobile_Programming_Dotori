@@ -153,10 +153,9 @@ public class ListFragment extends Fragment {
                     adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
                             data[k], "Account Circle Black 36dp", checkData[k]);
 
-                    if(checkData[k]==1){
+                    /*if(checkData[k]==1){
                         listNum++;
-                    }
-
+                    }*/
                 }
             } catch (Exception e) {
                 e.printStackTrace();
