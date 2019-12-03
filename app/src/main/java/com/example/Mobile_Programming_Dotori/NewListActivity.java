@@ -38,10 +38,13 @@ import java.util.Locale;
 public class NewListActivity extends AppCompatActivity {
 
     String tmp_name;
+    String tmp_listname;
     String tmp_memo;
 
     EditText listname;
     EditText memo;
+
+    public String id;
 
 
     @Override
@@ -53,7 +56,7 @@ public class NewListActivity extends AppCompatActivity {
         memo  = (EditText) findViewById(R.id.memo);
 
         //Add 버튼을 눌렀을 경우
-        Button add = (Button)findViewById(R.id.pAdd);
+        Button add = (Button)findViewById(R.id.listAdd);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,14 +68,14 @@ public class NewListActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "리스트의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    // 새로운 리스트 정보를 DB에 넣기 위한 기능 ( 리스트 이름과 메모를 매개변수로 설정)
-                    insertoToDatabase("hean",tmp_name, tmp_memo);
+                    // 새로운 리스트 정보를 DB에 넣기 위한 기능 (매개변수로 설정)
+                    insertoToDatabase(id,tmp_name, tmp_listname, tmp_memo);
                 }
             }
         });
     }
     //서버의 PHP문을 사용하여 DB에 데이터를 삽입하는 함수
-    private void insertoToDatabase(String pid,String pName, String memo) {
+    private void insertoToDatabase(String pid, String name, String listName, String memo) {
         class InsertData extends AsyncTask<String, Void, String> { // 비동기 클래스
             ProgressDialog loading; // 로딩 작업
             @Override
@@ -91,12 +94,13 @@ public class NewListActivity extends AppCompatActivity {
             protected String doInBackground(String... params) {
                 String id = (String) params[0];
                 String name = (String) params[1];
-                String memo = (String) params[2];
-                // 회원 아이디와 리스트 이름 , 시작 날짜와 종료날짜를 변수로 넘겨줌
-                String data = "pid="+ id +"&listname=" + name + "&memo=" + memo;
+                String listname = (String) params[2];
+                String memo = (String) params[3];
+                // 회원 아이디와 프로젝트 이름, 리스트 이름, 메모를 변수로 넘겨줌
+                String data = "pid="+ id +"&PName=" + name + "&listname=" + listname +"&memo=" + memo;
                 try {
                     //서버의 php문에 연결
-                    URL url = new URL("http://13.124.77.84/getProject.php");
+                    URL url = new URL("http://13.124.77.84/getProject.php"); //@@@@@@@링크
                     // httpURLConnection을 통해 data를 가져온다.
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
@@ -150,7 +154,7 @@ public class NewListActivity extends AppCompatActivity {
         }
         //DB 삽입 실행 객체
         InsertData task = new InsertData();
-        task.execute(pid,pName,memo);
+        task.execute(pid,name,listName,memo);
     }
 
 }
