@@ -64,10 +64,10 @@ public class NewListActivity extends AppCompatActivity {
                 if (tmp_name.length() == 0) { // 리스트의 이름이 입력되지 않았을 경우
                     Toast.makeText(getApplicationContext(), "리스트의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 }
-                /*else {
+                else {
                     // 새로운 리스트 정보를 DB에 넣기 위한 기능 ( 리스트 이름과 메모를 매개변수로 설정)
                     insertoToDatabase("hean",tmp_name, tmp_memo);
-                }*/
+                }
             }
         });
 
