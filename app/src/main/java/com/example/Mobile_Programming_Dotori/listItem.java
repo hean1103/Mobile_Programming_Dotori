@@ -1,6 +1,8 @@
-package com.example.list;
+
+package com.example.Mobile_Programming_Dotori;
 
 import android.graphics.drawable.Drawable;
+
 
 public class listItem {
 
