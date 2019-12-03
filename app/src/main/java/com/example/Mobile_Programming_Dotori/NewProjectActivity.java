@@ -47,6 +47,9 @@ public class NewProjectActivity extends AppCompatActivity {
     EditText fID;
 
     public String id;
+    public int year;
+    public int month;
+    public int days;
 
     private ProjectFragment projectFragment = new ProjectFragment();
 
@@ -85,6 +88,9 @@ public class NewProjectActivity extends AppCompatActivity {
         //로그인 한 아이디 값 가져오기
         Intent intent = getIntent();
         final String id = intent.getStringExtra("id");
+        year = myCalendar.get(Calendar.YEAR);
+        month = myCalendar.get(Calendar.MONTH);
+        days = myCalendar.get(Calendar.DATE);
 
         //EditText에 입력된 값들을 가져옴
         pname = (EditText) findViewById(R.id.pname);
@@ -95,14 +101,14 @@ public class NewProjectActivity extends AppCompatActivity {
         dateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(NewProjectActivity.this, listener_from, 2019, 5, 24); // 기본 날짜 설정
+                DatePickerDialog dialog = new DatePickerDialog(NewProjectActivity.this, listener_from, year, month, days); // 기본 날짜 설정
                 dialog.show();
             }
         });
         dateto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(NewProjectActivity.this, listener_to, 2019, 5, 24);
+                DatePickerDialog dialog = new DatePickerDialog(NewProjectActivity.this, listener_to, year, month, days);
                 dialog.show();
             }
         });

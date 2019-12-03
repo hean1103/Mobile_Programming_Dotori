@@ -43,6 +43,10 @@ public class SettingProjectActivity extends AppCompatActivity {
     EditText dateto;
     EditText fID;
     public String getid;
+    public int year;
+    public int month;
+    public int days;
+
 
     Calendar myCalendar = Calendar.getInstance(); // DatePicker를 사용하기 위해 달력 선언
     InputStream inputStream = null;
@@ -87,6 +91,10 @@ public class SettingProjectActivity extends AppCompatActivity {
         String getname= intent.getStringExtra("pname"); // 설정을 수정할 프로젝트 이름을 얻어옴.
         getid= intent.getStringExtra("pid"); // 설정을 수정할 프로젝트 이름을 얻어옴.
         task.execute(getid,getname); // 프로젝트 이름과 회원 아이디를 매개변수로 지정.
+        year = myCalendar.get(Calendar.YEAR);
+        month = myCalendar.get(Calendar.MONTH);
+        days = myCalendar.get(Calendar.DATE);
+
 
         pname = (EditText) findViewById(R.id.pname);
         dateFrom = (EditText) findViewById(R.id.dateFrom);
@@ -96,14 +104,14 @@ public class SettingProjectActivity extends AppCompatActivity {
         dateFrom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(SettingProjectActivity.this, listener_from, 2019, 5, 24); // Datepicker 기본 날짜 지정
+                DatePickerDialog dialog = new DatePickerDialog(SettingProjectActivity.this, listener_from, year, month, days); // Datepicker 기본 날짜 지정
                 dialog.show();
             }
         });
         dateto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog dialog = new DatePickerDialog(SettingProjectActivity.this, listener_to, 2019, 5, 24);
+                DatePickerDialog dialog = new DatePickerDialog(SettingProjectActivity.this, listener_to, year, month, days);
                 dialog.show();
             }
         });
