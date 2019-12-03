@@ -3,12 +3,11 @@ package com.example.Mobile_Programming_Dotori;
 
 import android.graphics.drawable.Drawable;
 
-
 public class listItem {
 
     private Drawable iconDrawable;
     private String titleStr;
-    private Boolean checkState;
+    private int checkState;
 
     public void setIcon(Drawable icon) {
         iconDrawable = icon;
@@ -18,12 +17,15 @@ public class listItem {
         titleStr = title;
     }
 
-    public void setCheck(boolean check) {
+    public void setCheck(int check) {
         checkState = check;
     }
 
     public boolean getCheck() {
-        return this.checkState;
+        if (this.checkState == 1)
+            return true;
+            else return false;
+//        return this.checkState;
     }
 
     public Drawable getIcon() {
@@ -34,4 +36,3 @@ public class listItem {
         return this.titleStr;
     }
 }
-
