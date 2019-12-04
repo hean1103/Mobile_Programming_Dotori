@@ -32,7 +32,6 @@ public class MainFragment extends Fragment {
 
     String id;
     String userImg = "squirrel_";
-    String userListNumStr ;
     public String data[] ;
     public int totalNum , checkNum=0;
     public String PName;
@@ -64,19 +63,10 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        GetUserListNumStr task = new GetUserListNumStr();
-//        try {
-//            userListNumStr = task.execute(id).get();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
-
 
         //캐릭터 지정
         ImageView character = (ImageView) v.findViewById(R.id.imageView1);
@@ -109,11 +99,10 @@ public class MainFragment extends Fragment {
             case "rabbit":
                 character.setImageResource(R.drawable.rabbit);
                 break;
-
-
         }
-        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim1);
-                character.startAnimation(anim);
+
+        //        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim1);
+        //                character.startAnimation(anim);
 
         // 이동거리
 //        switch (userListNumStr){

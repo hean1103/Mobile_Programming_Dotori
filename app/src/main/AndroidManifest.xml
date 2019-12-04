@@ -25,6 +25,8 @@
         <activity android:name=".NewProjectActivity" />
         <activity android:name=".NewListActivity" />
         <activity android:name=".SettingProjectActivity" />
+        <activity android:name=".SettingListActivity" />
+
 
     </application>
 

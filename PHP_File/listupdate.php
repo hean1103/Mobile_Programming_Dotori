@@ -7,9 +7,10 @@ if (mysqli_connect_errno($con))
 }
 $PID = $_GET['PID'];
 $PName = $_GET['PName'];
-$ListName = $_GET['ListName'];
+$NewListName = $_GET['NewListName']
 $Memo = $_GET['Memo'];
-$result = mysqli_query($con,"INSERT into list (PID,PName,ListName,Memo) values ('$PID','$PName','$ListName','$Memo')");
+$ListName = $_GET['ListName'];
+$result = mysqli_query($con,"UPDATE list SET ListName='$NewListName',Memo='$Memo' WHERE PID='$PID' AND PName='$PName' AND ListName='$ListName'");
   if($result){
     echo $PName;
   }
@@ -18,3 +19,5 @@ $result = mysqli_query($con,"INSERT into list (PID,PName,ListName,Memo) values (
   }
 mysqli_close($con);
 ?>
+
+http://13.124.77.84/listsetting.php?PID=hean&PName=aaa&ListName=bk&Memo+newMenu
