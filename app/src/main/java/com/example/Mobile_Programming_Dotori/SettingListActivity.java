@@ -77,7 +77,7 @@ public class SettingListActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "리스트의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
                 } else { // 모든 조건이 만족한 경우
                     task.cancel(true); // 프로젝트 정보를 가져오기 위한 AsyncTask 를 종료함
-                    UpdateToDatabase(getid,getpname, tmp_listname, tmp_memo,newName); // 프로젝트 업데이트를 위한 매개변수로 설정.
+                    UpdateToDatabase(getid,getpname, tmp_listname, tmp_memo, newName); // 프로젝트 업데이트를 위한 매개변수로 설정.
 
                 }
             }
@@ -90,14 +90,15 @@ public class SettingListActivity extends AppCompatActivity {
             super.onPreExecute();
         } // 실행 전 하는 작업
 
-        //@SuppressLint("WrongThread") //지우기
+        @SuppressLint("WrongThread") //지우기
         @Override
         protected String doInBackground (String...params){
             try {
-                String id = params[0];
-                String pname = params[1];
-                String listname = params[2];
-                String uri = "http://13.124.77.84/projectsetting.php?PID="+id +"&PName="+pname +"&listName="+listname; // Get 데이터 전송을 위한 url 리스트 아이디와 이름을 넘겨줌 //@@@@@@@@@@ 링크
+                String PID = params[0];
+                String PName = params[1];
+                String ListName = params[2];
+                String Memo = params[3];
+                String uri = "http://13.124.77.84/listsetting.php?PID="+PID +"&PName="+PName +"&ListName="+ListName + "&Memo=" +Memo; // Get 데이터 전송을 위한 url 리스트 아이디와 이름을 넘겨줌 //@@@@@@@@@@
                 URL url = new URL(uri);
                 // httpURLConnection을 통해 data를 가져온다.
                 HttpURLConnection httpsURLConnection = (HttpURLConnection) url.openConnection();
@@ -136,7 +137,7 @@ public class SettingListActivity extends AppCompatActivity {
                 newName =  jsonObject.getString("ListName"); // 기존의 리스트 이름을 저장
                 // 기존 리스트 정보들을 DB에서 가져온 후 채워넣음
                 listname.setText(jsonObject.getString("ListName"));
-                memo.setText(jsonObject.getString("memo"));
+                memo.setText(jsonObject.getString("Memo"));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -145,7 +146,7 @@ public class SettingListActivity extends AppCompatActivity {
 
     }
     // 새롭게 수정된 부분을 DB에 업데이트 하는 코드
-    private void UpdateToDatabase(String pid, String pName,String listName, String memo, String newname) {
+    private void UpdateToDatabase(String PID, String PName, String ListName, String Memo, String NewName) { // 여기만 NewName
         class UpdateData extends AsyncTask<String, Void, String> { // 비동기 클래스
             @Override
             protected void onPreExecute() {
@@ -157,16 +158,16 @@ public class SettingListActivity extends AppCompatActivity {
             }
             @Override
             protected String doInBackground(String... params) {
-                String id = (String) params[0];
-                String name = (String) params[1];
-                String listName = (String) params[2];
-                String memo = (String) params[3];
-                String newname = (String) params[4]; // 기존의  이름 ( DB에서 회원 아이디와 기존  이름을 검색 조건으로 사용하기 위해)
-                String data = "pid="+ id +"&pname=" + name +"&listName=" + name +"&memo=" + memo;
+                String PID = (String) params[0];
+                String PName = (String) params[1];
+                String ListName = (String) params[2];
+                String Memo = (String) params[3];
+                String newName = (String) params[4]; // 기존의  이름 ( DB에서 회원 아이디와 기존  이름을 검색 조건으로 사용하기 위해)
+                String data = "PID="+ PID +"&PName=" + PName +"&ListName=" + ListName +"&Memo=" + Memo;
 
                 try {
                     //GET 데이터 통신 사용
-                    URL url = new URL("http://13.124.77.84/projectupdates.php?pid=" + id + "&pname="+ name + "&listName=" + listName + "&memo=" + memo + "&newname="+newname); //@@@ 링크
+                    URL url = new URL("http://13.124.77.84/listupdates.php?PID=" + PID + "&PName="+ PName + "&ListName=" + ListName + "&Memo=" + Memo + "&newName="+newName); //@@@@@@@@@@@@@
                     // httpURLConnection을 통해 data를 가져온다.
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
@@ -210,7 +211,7 @@ public class SettingListActivity extends AppCompatActivity {
             }
         }
         UpdateData task = new UpdateData();
-        task.execute(pid,pName,listName, memo ,newname);
+        task.execute(PID,PName,ListName, Memo ,NewName);
     }
 
 }
