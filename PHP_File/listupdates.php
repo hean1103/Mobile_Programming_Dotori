@@ -10,7 +10,7 @@
         $ListName = $_GET['ListName'];
         $Memo = $_GET['Memo'];
         $NewName = $_GET['newname'];
-        $query = "UPDATE project SET PName='$PName', ListName='$ListName',Memo='$Memo' WHERE PID='$PID' AND ListName='$NewName'";
+        $query = "UPDATE list SET PName='$PName', ListName='$ListName',Memo='$Memo' WHERE PID='$PID' AND PName='$NewName AND ListName='$NewName'";
         $result = mysqli_query($con,$query);
         if($result){
         echo $ListName;
