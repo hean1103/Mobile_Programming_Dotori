@@ -29,169 +29,139 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class listAdapter extends BaseAdapter {
+public class ListFragment extends Fragment {
+    String data[];
+    int[] checkData;
+    int listNum;
 
-    private PopupMenu popup; //리스트 뷰에서 옵션 메뉴 기능을 하기 위한 popup
-    public String pname;
-    public String pid;
-    public String listname;
-    public boolean checkState;
-    private ArrayList<listItem> listItemList = new ArrayList<listItem>() ; // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
+    //    SharedPreferences pref = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+    //final String id = pref.getString("Globalid","");
 
+    String pname = "aaa";
+    String id = "hean";
+
+    ListView listview;
+    listAdapter adapter;
+
+    @Nullable
     @Override
-    public int getCount() {
-        return listItemList.size() ;
-    } // Adapter에 사용되는 데이터의 개수를 리턴.
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_list, container, false);
+        listview = (ListView) view.findViewById(R.id.listview1);
+        adapter = new listAdapter();
+        listview.setAdapter(adapter);
 
+        get_data task = new get_data(); // 프로젝트 리스트들을 얻기 위한 객체
+        task.execute(id, pname); //@@@@@@@@@@
+        FloatingActionButton fab = view.findViewById(R.id.fab_sub1); // 새로운 리스트 추가를 위한 + 버튼
+        fab.setOnClickListener(new FABClickListener());
 
-    @Override // position에 위치한 데이터를 화면에 출력하는데 사용될 View를 리턴.
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        final int pos = position;
-        final Context context = parent.getContext();
+        return view;
+    }
 
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.list_item, parent, false);
+    class FABClickListener implements View.OnClickListener {
+        @Override
+        // + 버튼을 클릭시 NewListActivity.java로 화면 전환
+        public void onClick(View v) {
+            Intent intent = new Intent(getActivity(), NewListActivity.class); //회원아이디
+            intent.putExtra("pid", id); // 아이디 넘기기 //@@@@@@@@@@@
+            intent.putExtra("pName", pname); // 프로젝트 이름 넘기기 //@@@@@@@@@@@
+            startActivity(intent);
         }
-        // 옵션 메뉴를 위한 이미지 (... 모양)
-        final ImageButton iconImageView = (ImageButton) convertView.findViewById(R.id.listview_btn) ;
-        TextView titleTextView = (TextView) convertView.findViewById(R.id.textView) ;
-        CheckBox checkBox = (CheckBox) convertView.findViewById(R.id.listCheck) ;
-
-        // position을 이용해 정확한 listview의 item을 얻음.
-        final listItem listItem = listItemList.get(position);
-
-        iconImageView.setImageDrawable(listItem.getIcon());
-        titleTextView.setText(listItem.getTitle());
-        checkBox.setChecked(listItem.getCheck());
-
-        iconImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { // ... 모양을 클릭했을 경우 (설정 버튼)
-                popup = new PopupMenu(context, v);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.listmenu, popup.getMenu()); // popup메뉴 구성
-                popup.show();
-                listname = listItemList.get(position).getTitle(); //position을 통해 리스트의 title을 얻음
-                checkState = listItemList.get(position).getCheck();
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.one: //리스트를 메인에 고정하는 기능
-                                Toast.makeText(context,"고정 이벤트 추가하기" ,Toast.LENGTH_SHORT).show();
-                                break;
-                            case R.id.two: // 리스트의 정보를 수정하는 기능
-                                Intent intent = new Intent(context,SettingListActivity.class);
-                                intent.putExtra("listname",listname); //settingProjectActovity.java로 리스트 이름 정보를 넘겨줌
-                                intent.putExtra("check",checkState);
-                                context.startActivity(intent); //액티비티로 화면 전환
-                                break;
-                            case R.id.three: // 리스트 삭제 기능
-                                DeleteToDatabase(pid, pname, listname); // 리스트 삭제를 위하여 ID와 프로젝트 이름, 리스트 이름을 매개변수로 설정.
-                                break;
-                        }
-                        return false;
-                    }
-                });
-            }
-        });
-        return convertView;
     }
 
-    // 지정한 위치(position)에 있는 데이터와 관계된 아이템(row)의 ID를 리턴.
-    @Override
-    public long getItemId(int position) {
-        return position ;
-    }
+    //리스트들을 얻기 위한 함수
+    public class get_data extends AsyncTask<String, Void, String> {  // 비동기 클래스
+        protected void onPreExecute() { // 실행전 수행되는 함수
+        }
 
-    // 지정한 위치(position)에 있는 데이터 리턴
-    @Override
-    public Object getItem(int position) {
-        return listItemList.get(position) ;
-    }
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                String id = params[0];
+                String PName = params[1];
+                String uri = "http://13.124.77.84/getprojectlist.php?PID=" + id + "&PName=" + PName; // 회원 아이디와 프로젝트이름을 변수로 php에 넘겨줌 디비 php 경로
+                URL url = new URL(uri);
+                // httpURLConnection을 통해 data를 가져온다.
+                HttpURLConnection httpsURLConnection = (HttpURLConnection) url.openConnection();
+                httpsURLConnection.setRequestMethod("GET"); //url 메소드를 post로 결정
+                httpsURLConnection.setReadTimeout(5000);
+                httpsURLConnection.setConnectTimeout(5000);
+                httpsURLConnection.connect();
+                // php문 응답 코드 확인하기
+                int responseStatusCode = httpsURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
 
-    // 아이템 데이터 추가를 위한 함수.
-    public void addItem(Drawable icon, String title,int check, String desc, String id, String name) {
-        listItem item = new listItem();
-
-        item.setIcon(icon);
-        item.setTitle(title);
-        item.setCheck(check);
-        pid = id;
-        pname = name;
-        listItemList.add(item);
-    }
-    //php를 통해 DB와 연동하여 리스트를 삭제하는 함수
-    private void DeleteToDatabase(String PID,String PName, String ListName) {
-        class DeleteData extends AsyncTask<String, Void, String> { // 비동기 클래스
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-            } // 실행전에 하는 작업
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-            } // 실행후에 하는 작업
-            @Override
-            protected String doInBackground(String... params) {
-
-                String PID= (String) params[0]; // 회원의 아이디
-                String PName = (String) params[1]; // 프로젝트 이름
-                String ListName = (String) params[2]; // 리스트의 이름
-                String data = "PID="+ PID +"&PNam" + PName +"&listname=" + ListName; // 2개의 정보를 php에 넘겨줌
-                try {
-                    // httpURLConnection을 통해 data를 가져온다.
-                    URL url = new URL("http://13.124.77.84/deleteList.php"); // 서버의 php 파일에 연결 //@@@@@@@
-                    HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-                    httpURLConnection.setReadTimeout(5000);
-                    httpURLConnection.setConnectTimeout(5000);
-                    httpURLConnection.setRequestMethod("POST"); //url 메소드를 post로 결정
-                    httpURLConnection.connect();
-
-                    OutputStream outputStream = httpURLConnection.getOutputStream();
-                    outputStream.write(data.getBytes("UTF-8"));
-                    outputStream.flush(); // 버퍼링된 출력 바이트 실행
-                    outputStream.close();
-
-                    // php문 응답 코드 확인하기
-                    int responseStatusCode = httpURLConnection.getResponseCode();
-                    Log.i("TAG", "POST response code - " + responseStatusCode);
-
-                    InputStream inputStream;
-                    // php문으로부터 온 응답코드가 200일 경우
-                    if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                        inputStream = httpURLConnection.getInputStream();
-                    }
-                    else{
-                        inputStream = httpURLConnection.getErrorStream();
-                    }
-                    // 요청 결과물 받기
-                    InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                    StringBuilder sb = new StringBuilder();
-                    String line = null;
-                    // 라인을 받아와 합침
-                    while((line = bufferedReader.readLine()) != null){
-                        sb.append(line);
-                    }
-
-
-                    bufferedReader.close();
-                    return sb.toString();
-
-
-                } catch (Exception e) { // 에러가 발생한 경우
-
-                    Log.e("ERROR", "InsertData: Error ", e);
-
-                    return new String("Error: " + e.getMessage());
+                InputStream inputStream;
+                // php문으로부터 온 응답코드가 200일 경우
+                if (responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpsURLConnection.getInputStream();
+                    Log.i("http상태 코드 : ", "HTTP_OK");
+                } else {
+                    inputStream = httpsURLConnection.getErrorStream();
+                    Log.i("http상태 코드 : ", "NOT HTTP_OK");
                 }
+                // 요청 결과물 받기
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                //php문 결과 내용 가져오기 라인으로 받아오기
+                while ((line = bufferedReader.readLine()) != null) {
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                // 실행 결과 확인 Log
+                Log.i("실행 결과 : ", sb.toString());
+                // onPostExecute로 결과값 전달
+                return sb.toString().trim();
+
+            } catch (MalformedURLException e) {
+                return e.getMessage();
+            } catch (IOException e) {
+                Log.e("log_tag1", "Error converting result " + e.toString());
+                return e.getMessage();
             }
         }
-        DeleteData task = new DeleteData();
-        task.execute(PID, PName, ListName); // 실행
+
+
+        @Override
+        protected void onPostExecute(String result) {
+            // 프로젝트 리스트들을 listview 형태로 만들기 위한 선언
+            adapter = new listAdapter();
+            listview.setAdapter(adapter);
+            //  json data 분석
+            try {
+                //php문의 결과를 배열로 받아옴
+                JSONArray jsonArray = new JSONArray(result);
+                JSONObject jsonObject = null;
+                data = new String[jsonArray.length()]; // 배열의 길이만큼 크기 선언
+                checkData = new int[jsonArray.length()];
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    // 배열을 하나씩 객체로 받아 그 안의 ListName이라고 저장되있는 값을 data배열에 넣어줌 == 리스트 이름
+                    jsonObject = jsonArray.getJSONObject(i);
+                    data[i] = jsonObject.getString("ListName"); // 리스트 이름
+                    checkData[i] = jsonObject.getInt("CheckBox"); //@@@@@@@@@@@@@@
+                    Log.i("php 내용 가져오기 : ", data[i]);
+                }
+
+                for (int k = 0; k < data.length; k++) {
+                    //data 배열의 크기만큼 for문을 돌며 커스텀 listview 생성
+                    adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
+                            data[k],checkData[k], "Account Circle Black 36dp",id, pname);
+
+                    if(checkData[k]==1){
+                        listNum++;
+                    }
+
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
