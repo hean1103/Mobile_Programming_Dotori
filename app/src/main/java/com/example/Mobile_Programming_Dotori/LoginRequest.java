@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-//로그인 요청하는 함수
+//로그인 요청하는 함수 id와 password를 넘겨받음
 public class LoginRequest extends StringRequest {
 
     //연결할 ip와 php

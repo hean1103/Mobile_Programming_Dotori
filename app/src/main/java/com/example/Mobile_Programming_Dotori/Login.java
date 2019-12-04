@@ -23,6 +23,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        //레이아웃의 id값 변수에 지정
         final EditText idText = (EditText) findViewById(R.id.IDView);
         final EditText pwText = (EditText) findViewById(R.id.PWView);
         final Button LoginButton = (Button) findViewById(R.id.LoginButton);
@@ -30,23 +31,6 @@ public class Login extends AppCompatActivity {
 
 
         //로그인클릭
-//        LoginButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
-//                String id = idText.getText().toString();
-//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//
-//                //id변수 공통으로 쓸수있게 하는 부분
-//                SharedPreferences pref = getSharedPreferences("pref",MODE_PRIVATE);
-//                SharedPreferences.Editor editor = pref.edit();
-//                editor.putString("Globalid",id);
-//                editor.commit();
-//
-//                startActivity(intent);
-//            }
-//        });
-
         LoginButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -69,9 +53,6 @@ public class Login extends AppCompatActivity {
                            boolean success = jsonResponse.getBoolean("success");
                            if(success)
                            {
-//                               String id = jsonResponse.getString("id");
-//                               String password = jsonResponse.getString("password");
-
                                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                                Toast.makeText(getApplicationContext(),"로그인 성공!", Toast.LENGTH_SHORT).show();
                                intent.putExtra("id",id);
@@ -92,6 +73,7 @@ public class Login extends AppCompatActivity {
                    }
                };
                //Volley 라이브러리를 이용해서 실제 서버와 통신을 구현하는 부분
+               //LoginRequest Java 파일의 함수에 파라미터를 넘겨주고 호출
                LoginRequest loginRequest = new LoginRequest(id, password, responseListener);
                RequestQueue queue = Volley.newRequestQueue(Login.this);
                queue.add(loginRequest);

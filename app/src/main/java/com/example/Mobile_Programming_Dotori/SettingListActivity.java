@@ -90,7 +90,7 @@ public class SettingListActivity extends AppCompatActivity {
             super.onPreExecute();
         } // 실행 전 하는 작업
 
-        @SuppressLint("WrongThread") //지우기
+        //@SuppressLint("WrongThread") //지우기
         @Override
         protected String doInBackground (String...params){
             try {

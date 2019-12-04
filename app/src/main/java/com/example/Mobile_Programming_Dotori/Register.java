@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ import java.net.URLEncoder;
 //회원가입 구현
 public class Register extends AppCompatActivity {
 
+    //레이아웃에서 불러올 아이디값
     private EditText editTextId;
     private EditText editTextPw;
     private EditText editTextPw_check;
@@ -33,7 +36,7 @@ public class Register extends AppCompatActivity {
     private EditText editTextPhone;
     private EditText editTextBirth;
 
-    private AlertDialog dialog;
+    private AlertDialog dialog; // 다이얼로그 선언
     private boolean validate = false; //ID체크
 
     //연결할 ip와 php
@@ -51,11 +54,103 @@ public class Register extends AppCompatActivity {
         editTextBirth = (EditText) findViewById(R.id.new_birth);
 
 
+        //휴대폰 번호 editText 양식 지정 (입력할때마다 양식이 변하게 함)
+        editTextPhone.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
+            private boolean backspacingFlag = false;
+            private boolean editedFlag = false;
+            private int cursorComplement;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                cursorComplement = s.length()-editTextPhone.getSelectionStart();
+                if (count > after) {
+                    backspacingFlag = true;
+                } else {
+                    backspacingFlag = false;
+                }
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                String phone = string.replaceAll("[^\\d]", "");
+
+                if (!editedFlag) {
+
+                    if (phone.length() >= 7 && !backspacingFlag) {//editText의 스트링 길이가 7이상이면 괄호 두개와 하나의 하이푼 설정
+
+                        editedFlag = true;
+
+                        String ans = "(" + phone.substring(0, 3) + ") " + phone.substring(3,7) + "-" + phone.substring(7);
+                        editTextPhone.setText(ans);
+
+                        editTextPhone.setSelection(editTextPhone.getText().length()-cursorComplement);
+
+                    } else if (phone.length() >= 3 && !backspacingFlag) { //editText의 스트링 길이가 3이상이면 괄호 두개 설정
+                        editedFlag = true;
+                        String ans = "(" +phone.substring(0, 3) + ") " + phone.substring(3);
+                        editTextPhone.setText(ans);
+                        editTextPhone.setSelection(editTextPhone.getText().length()-cursorComplement);
+                    }
+
+                } else {
+                    editedFlag = false;
+                }
+            }
+        });
+
+
+        //생일 editText 양식 지정 (입력할때마다 양식이 변하게 함)
+        editTextBirth.addTextChangedListener(new PhoneNumberFormattingTextWatcher() {
+            private boolean backspacingFlag = false;
+            private boolean editedFlag = false;
+            private int cursorComplement;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                cursorComplement = s.length()-editTextBirth.getSelectionStart();
+                if (count > after) {
+                    backspacingFlag = true;
+                } else {
+                    backspacingFlag = false;
+                }
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                String string = s.toString();
+                String phone = string.replaceAll("[^\\d]", "");
+
+                if (!editedFlag) {
+                    if (phone.length() >= 7 && !backspacingFlag) { //editText의 스트링 길이가 7이상이면 하이푼 두개 설정
+
+                        editedFlag = true;
+
+                        String ans =  phone.substring(0, 4) + "-" + phone.substring(4,6) + "-" + phone.substring(6);
+                        editTextBirth.setText(ans);
+
+                        editTextBirth.setSelection(editTextBirth.getText().length()-cursorComplement);
+
+                    } else if (phone.length() >= 4 && !backspacingFlag) { //editText의 스트링 길이가 4이상이면 하이푼 한개 설정
+                        editedFlag = true;
+                        String ans = phone.substring(0, 4) + "-" + phone.substring(4);
+                        editTextBirth.setText(ans);
+                        editTextBirth.setSelection(editTextBirth.getText().length()-cursorComplement);
+                    }
+
+                } else {
+                    editedFlag = false;
+                }
+            }
+        });
+
         //중복확인 버튼
         Button validateButton = (Button)findViewById(R.id.validateButton);
-
-
-
+        //중복확인 버튼 클릭
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,7 +180,7 @@ public class Register extends AppCompatActivity {
 
                             JSONObject jsonResponse = new JSONObject(response);
                             boolean success = jsonResponse.getBoolean("success");
-                            if(success){//사용할 수 있는 아이디라면
+                            if(success){//json 형식으로 받은 id 값이 success (사용할 수 있는 아이디라면) 다이얼로그 띄움
                                 AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
                                 dialog = builder.setMessage("사용할 수 있는 아이디입니다.")
                                         .setPositiveButton("확인", null)
@@ -95,7 +190,7 @@ public class Register extends AppCompatActivity {
                                 validate = true;//검증완료
 
 
-                            }else{//사용할 수 없는 아이디라면
+                            }else{//json 형식으로 받은 id 값이 success가 아니라면 (사용할 수 없는 아이디라면) 다이얼로그 띄움
                                 AlertDialog.Builder builder = new AlertDialog.Builder(Register.this);
                                 dialog = builder.setMessage("이미 사용중인 아이디입니다.")
                                         .setNegativeButton("확인", null)
@@ -111,6 +206,7 @@ public class Register extends AppCompatActivity {
                 };//Response.Listener 완료
 
                 //Volley 라이브러리를 이용해서 실제 서버와 통신을 구현하는 부분
+                //ValidateRequest Java 파일의 함수에 파라미터를 넘겨주고 호출
                 ValidateRequest validateRequest = new ValidateRequest(check_id, responseListener);
                 RequestQueue queue = Volley.newRequestQueue(Register.this);
                 queue.add(validateRequest);
@@ -186,10 +282,11 @@ public class Register extends AppCompatActivity {
                     finish();
 
             }
+            //백그라운드에서 작업 시작
             @Override
             protected String doInBackground(String... params) {
-
                 try {
+                    //파라미터로 각각 변수 지정
                     String id = (String) params[0];
                     String password = (String) params[1];
                     String name = (String) params[2];
@@ -209,6 +306,7 @@ public class Register extends AppCompatActivity {
                     conn.setDoOutput(true);
                     OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
 
+                    //DB에 전송
                     wr.write(data);
                     wr.flush();
 
@@ -228,6 +326,7 @@ public class Register extends AppCompatActivity {
                 }
             }
         }
+        //파라미터 넘겨주는 부분
         InsertData task = new InsertData();
         task.execute(id, password, name, phone_number,birth_date);
     }

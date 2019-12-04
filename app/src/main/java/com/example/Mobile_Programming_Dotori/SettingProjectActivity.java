@@ -117,7 +117,7 @@ public class SettingProjectActivity extends AppCompatActivity {
         });
 
         //Add button 클릭 이벤트
-        Button add = (Button)findViewById(R.id.pAdd);
+        Button add = (Button)findViewById(R.id.listAdd);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
