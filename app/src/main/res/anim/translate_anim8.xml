@@ -4,7 +4,7 @@
     android:fromXDelta="900"
     android:fromYDelta="1700"
     android:toXDelta="500"
-    android:toYDelta="1700"
+    android:toYDelta="550"
     android:fillAfter="true"
     android:fillEnabled="true"
     >
