@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,6 +28,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 public class listViewAdapter extends BaseAdapter {
 
@@ -89,6 +91,18 @@ public class listViewAdapter extends BaseAdapter {
                 });
             }
         });
+
+
+        titleTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context,SublistActivity.class);
+                intent.putExtra("pid", pid);
+                intent.putExtra("pname",listViewItem.getTitle());
+                context.startActivity(intent); //액티비티로 화면 전환
+            }
+        });
+
         return convertView;
     }
 

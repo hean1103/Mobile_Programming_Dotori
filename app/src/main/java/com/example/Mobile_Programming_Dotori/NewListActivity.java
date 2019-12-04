@@ -37,42 +37,42 @@ import java.util.Locale;
 
 public class NewListActivity extends AppCompatActivity {
 
-    String tmp_name;
-    String tmp_listname;
-    String tmp_memo;
-
-    EditText listname;
-    EditText memo;
-
-    public String id;
+//    String tmp_name;
+//    String tmp_listname;
+//    String tmp_memo;
+//
+//    EditText listname;
+//    EditText memo;
+//
+//    public String id;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newlist); // layout 연결
-        //EditText에 입력된 값들을 가져옴
-        listname = (EditText) findViewById(R.id.listname);
-        memo  = (EditText) findViewById(R.id.memo);
-
-        //Add 버튼을 눌렀을 경우
-        Button add = (Button)findViewById(R.id.listAdd);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 저장된 정보들을 가져옴
-                tmp_name = listname.getText().toString();
-                tmp_memo = memo.getText().toString();
-
-                if (tmp_name.length() == 0) { // 리스트의 이름이 입력되지 않았을 경우
-                    Toast.makeText(getApplicationContext(), "리스트의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    // 새로운 리스트 정보를 DB에 넣기 위한 기능 (매개변수로 설정)
-                    insertoToDatabase(id,tmp_name, tmp_listname, tmp_memo);
-                }
-            }
-        });
+//        //EditText에 입력된 값들을 가져옴
+//        listname = (EditText) findViewById(R.id.listname);
+//        memo  = (EditText) findViewById(R.id.memo);
+//
+//        //Add 버튼을 눌렀을 경우
+//        Button add = (Button)findViewById(R.id.listAdd);
+//        add.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                // 저장된 정보들을 가져옴
+//                tmp_name = listname.getText().toString();
+//                tmp_memo = memo.getText().toString();
+//
+//                if (tmp_name.length() == 0) { // 리스트의 이름이 입력되지 않았을 경우
+//                    Toast.makeText(getApplicationContext(), "리스트의 이름을 입력해주세요.", Toast.LENGTH_SHORT).show();
+//                }
+//                else {
+//                    // 새로운 리스트 정보를 DB에 넣기 위한 기능 (매개변수로 설정)
+//                    insertoToDatabase(id,tmp_name, tmp_listname, tmp_memo);
+//                }
+//            }
+//        });
     }
     //서버의 PHP문을 사용하여 DB에 데이터를 삽입하는 함수
     private void insertoToDatabase(String PID, String PName, String ListName, String Memo) {

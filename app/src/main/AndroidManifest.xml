@@ -11,9 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true"
-        >
-        <activity android:name=".MainActivity"/>
+        android:usesCleartextTraffic="true">
+        <activity android:name=".SublistActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".Register" />
         <activity android:name=".Login">
             <intent-filter>
@@ -22,9 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewProjectActivity"></activity>
-        <activity android:name=".SettingProjectActivity"></activity>
-
+        <activity android:name=".NewProjectActivity" />
+        <activity android:name=".SettingProjectActivity" />
     </application>
 
 </manifest>

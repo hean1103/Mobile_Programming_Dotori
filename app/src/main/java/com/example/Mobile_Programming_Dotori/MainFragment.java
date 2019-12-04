@@ -16,7 +16,7 @@ public class MainFragment extends Fragment {
 
     String id;
     String userImg = "squirrel_";
-    String userListNumStr = "2";
+    String userListNumStr ;
 
     //메인액티비티로부터 bundle을 사용하여 데이터를 받아옴
     public static MainFragment newInstance(String param) {
@@ -42,10 +42,18 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+//        GetUserListNumStr task = new GetUserListNumStr();
+//        try {
+//            userListNumStr = task.execute(id).get();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.activity_fragment_main, container, false);
+        View v = inflater.inflate(R.layout.fragment_main, container, false);
 
 
         //캐릭터 지정
@@ -82,7 +90,8 @@ public class MainFragment extends Fragment {
 
 
         }
-
+        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim1);
+                character.startAnimation(anim);
 
         // 이동거리
 //        switch (userListNumStr){
