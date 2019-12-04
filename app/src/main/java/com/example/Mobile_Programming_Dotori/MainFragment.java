@@ -1,4 +1,4 @@
-package com.example.anim;
+package com.example.Mobile_Programming_Dotori;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,7 +17,7 @@ public class MainFragment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_fragment_main);
 
         GetUserImg task = new GetUserImg();
         try {
