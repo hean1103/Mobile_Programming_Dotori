@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private MypageFragment mypageFragment = new MypageFragment();
     private CharacterFragment characterFragment = new CharacterFragment();
     private StoreFragment storeFragment = new StoreFragment();
+    private MainFragment mainFragment = new MainFragment();
     public String id ;
 
     @Override
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         storeFragment.setArguments(bundle);
         characterFragment.setArguments(bundle);
         projectFragment.setArguments(bundle);
+        mainFragment.setArguments(bundle);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정
@@ -65,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                     case R.id.navigation_store: {
                         transaction.replace(R.id.frame_layout, storeFragment.newInstance(id)).commitAllowingStateLoss();
-
+                        break;
+                    }
+                    case R.id.navigation_home: {
+                        transaction.replace(R.id.frame_layout, MainFragment.newInstance(id)).commitAllowingStateLoss();
                         break;
                     }
                 }
