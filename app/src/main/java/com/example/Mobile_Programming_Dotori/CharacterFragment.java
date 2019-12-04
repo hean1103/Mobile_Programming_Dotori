@@ -1,4 +1,3 @@
-
 package com.example.Mobile_Programming_Dotori;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -30,13 +29,13 @@ import java.util.List;
 import static android.content.ContentValues.TAG;
 
 public class CharacterFragment extends Fragment {
-    ListView listView;
-    public String id;
+    ListView listView; //캐릭터 종류 별 리스트
+    public String id; //사용자 아이디
     Button btn_select; //선택 버튼
     TextView textView; //캐릭터 이름
     public String myChar; //캐릭터
 
-
+    //메인 엑티비티에서 보낸 유저id 정보를 bundle을 사용하여 받아옴
     public static CharacterFragment newInstance(String param) {
         Bundle args = new Bundle();
         args.putString("userid", param);
@@ -59,8 +58,10 @@ public class CharacterFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        //사용자의 아이디를 통해 캐릭터 이미지를 받는 코드를 실행함
         GetImage task = new GetImage();
         try {
+            //String myChar에 이미지 이름을 받아옴
             myChar = task.execute(id).get();
         } catch (Exception e) {
             e.printStackTrace();
@@ -71,6 +72,7 @@ public class CharacterFragment extends Fragment {
 
         //캐릭터 리스트
         ArrayList<String> items = new ArrayList<>();
+        //사용자의 캐릭터 이름들은 string이며 ,(comma)로 구분되어 있기 때문에 이를 구분하여 리스트에 담음
         String str[] = myChar.split(",");
         Collections.addAll(items, str);
 
@@ -99,7 +101,7 @@ public class CharacterFragment extends Fragment {
             ImageView imageView = (ImageView) v.findViewById(R.id.imageView);
             textView = (TextView)v.findViewById(R.id.textView);
 
-            // 리스트뷰의 아이템에 이미지를 변경한다.
+            // 리스트뷰의 아이템에 이미지를 변경함
             if ("cat".equals(items.get(position))){
                 imageView.setImageResource(R.drawable.cat);
             }
@@ -118,14 +120,26 @@ public class CharacterFragment extends Fragment {
             else if("turtle".equals(items.get(position))) {
                 imageView.setImageResource(R.drawable.turtle);
             }
+            else if("rabbit".equals(items.get(position))) {
+                imageView.setImageResource(R.drawable.rabbit);
+            }
+            else if("tiger".equals(items.get(position))) {
+                imageView.setImageResource(R.drawable.tiger);
+            }
+            else if("horse".equals(items.get(position))) {
+                imageView.setImageResource(R.drawable.horse);
+            }
 
+            // 이미지의 이름을 넣어줌
             textView.setText(items.get(position));
-
+            // 대표 이미지로 선택할 수 있는 버튼
             btn_select = (Button)v.findViewById(R.id.btn_select);
 
+            //버튼을 클릭하면
             btn_select.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    //데이터베이스의 유저 정보에서 대표 이미지 이름을 변경함
                     updateImage task = new updateImage();
                     task.execute( id, items.get(position));
                     Toast.makeText(getActivity(),"대표 이미지로 저장되었습니다.", Toast.LENGTH_SHORT).show();
@@ -137,7 +151,7 @@ public class CharacterFragment extends Fragment {
         }
     }
 
-
+    // 사용자의 캐릭터 이미지들을 받는 클래스
     private class GetImage extends AsyncTask<String,Void,String>{
         protected void onPreExecute() {
         }
@@ -146,20 +160,21 @@ public class CharacterFragment extends Fragment {
         protected String doInBackground(String... args) {
 
             try {
-                //인자로 사용자 아이디 받아오기
+                //인자로 사용자 아이디 받아옴
                 String id = args[0];
 
+                //연결할 php코드 주소
                 String urlPath = "http://13.124.77.84/getImage.php?id=" + id;
 
                 URL url = new URL(urlPath);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
+                conn.setRequestMethod("GET"); // GET메소드를 이용하여 전송 (default)
                 conn.setReadTimeout(5000);
                 conn.setConnectTimeout(5000);
                 conn.connect();
 
                 int responseStatusCode = conn.getResponseCode();
-                Log.d(TAG, "response code - " + responseStatusCode);
+                Log.d(TAG, "response code :" + responseStatusCode);
 
                 InputStream inputStream;
                 if(responseStatusCode == HttpURLConnection.HTTP_OK) {
@@ -198,6 +213,8 @@ public class CharacterFragment extends Fragment {
         }
     }
 
+
+    //대표 이미지를 업데이트하는 클래스
     private class updateImage extends AsyncTask<String,Void,String> {
         protected void onPreExecute() {
         }
@@ -206,15 +223,16 @@ public class CharacterFragment extends Fragment {
         protected String doInBackground(String... args) {
 
             try {
-                //인자로 구매하고 난 후의 가격 받아오기
-                String id = args[0];
-                String name = args[1]; //업데이트할 사용자의 아이디
+                //인자로 구매하고 난 후의 가격 받아옴
+                String id = args[0]; //업데이트할 사용자의 아이디
+                String name = args[1]; //업데이트할 사용자의 캐릭터 이미지 이름
 
+                //실행할 php파일 주소
                 String urlPath = "http://13.124.77.84/updateImage.php?id=" + id + "&myImage=" + name ;
 
                 URL url = new URL(urlPath);
                 HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                conn.setRequestMethod("GET");
+                conn.setRequestMethod("GET");  //GET 방식을 사용함 (default 방식)
                 conn.setReadTimeout(5000);
                 conn.setConnectTimeout(5000);
                 conn.connect();

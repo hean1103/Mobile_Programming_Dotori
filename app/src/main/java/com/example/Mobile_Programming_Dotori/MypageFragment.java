@@ -138,6 +138,12 @@ public class MypageFragment extends Fragment {
                                 vImage.setImageResource(R.drawable.bigturtle);
                             else if (vimg.equals("dog"))
                                 vImage.setImageResource(R.drawable.bigdog);
+                            else if (vimg.equals("rabbit"))
+                                vImage.setImageResource(R.drawable.bigrabbit);
+                            else if (vimg.equals("horse"))
+                                vImage.setImageResource(R.drawable.bighorse);
+                            else if (vimg.equals("tiger"))
+                                vImage.setImageResource(R.drawable.bigtiger);
                             else
                                 Toast.makeText(getActivity(), "이미지 없음", Toast.LENGTH_LONG).show();
                             break;
