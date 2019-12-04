@@ -6,7 +6,7 @@ if (mysqli_connect_errno($con))
 }
 $ID = $_GET['PID'];
 $PName = $_GET['PName']; 
-$result = mysqli_query($con,"SELECT PName FROM project where PID='$ID' AND ListName FROM list where PName ='$PName' AND CheckBox FROM list where PName ='$PName'");
+$result = mysqli_query($con,"SELECT PName FROM project where PID='$ID' AND ListName FROM list where PName ='$PName'");
 if ($result) {
     while ($row = mysqli_fetch_array($result)) {
         $flag[] = $row;
