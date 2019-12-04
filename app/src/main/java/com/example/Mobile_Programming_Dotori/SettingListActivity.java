@@ -90,6 +90,7 @@ public class SettingListActivity extends AppCompatActivity {
             super.onPreExecute();
         } // 실행 전 하는 작업
 
+
         @Override
         protected String doInBackground (String...params){
             try {

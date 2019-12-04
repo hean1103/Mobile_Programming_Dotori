@@ -79,7 +79,7 @@ public class ListFragment extends Fragment {
             try {
                 String id = params[0];
                 String PName = params[1];
-                String uri = "http://13.124.77.84/getprojectlist.php?PID=" + id + "&PName=" + PName; // 회원 아이디와 프로젝트이름을 변수로 php에 넘겨줌 디비 php 경로
+                String uri = "http://13.124.77.84/listview.php?PID=" + id + "&PName=" + PName; // 회원 아이디와 프로젝트이름을 변수로 php에 넘겨줌 디비 php 경로
                 URL url = new URL(uri);
                 // httpURLConnection을 통해 data를 가져온다.
                 HttpURLConnection httpsURLConnection = (HttpURLConnection) url.openConnection();
