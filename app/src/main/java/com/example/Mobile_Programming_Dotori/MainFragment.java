@@ -86,6 +86,10 @@ public class MainFragment extends Fragment {
 
         // 이동거리
 //        switch (userListNumStr){
+//            case "0":
+//                Animation anim0 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_anim0);
+//                character.startAnimation(anim0);
+//                break;        
 //            case "1":
 //                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_anim1);
 //                character.startAnimation(anim);
