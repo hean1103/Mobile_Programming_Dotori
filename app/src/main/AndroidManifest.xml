@@ -23,7 +23,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".NewProjectActivity" />
+        <activity android:name=".NewListActivity" />
         <activity android:name=".SettingProjectActivity" />
+
     </application>
 
 </manifest>
