@@ -32,6 +32,8 @@ import java.util.ArrayList;
 public class listAdapter extends BaseAdapter {
 
     private PopupMenu popup; //리스트 뷰에서 옵션 메뉴 기능을 하기 위한 popup
+    public String pname;
+    public String pid;
     public String listname;
     public boolean checkState;
     private ArrayList<listItem> listItemList = new ArrayList<listItem>() ; // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
@@ -86,7 +88,7 @@ public class listAdapter extends BaseAdapter {
                                 context.startActivity(intent); //액티비티로 화면 전환
                                 break;
                             case R.id.three: // 리스트 삭제 기능
-                                DeleteToDatabase("hean",listname); // 리스트 삭제를 위하여 ID와 리스트 이름을 매개변수로 설정.
+                                DeleteToDatabase(pid, pname, listname); // 리스트 삭제를 위하여 ID와 프로젝트 이름, 리스트 이름을 매개변수로 설정.
                                 break;
                         }
                         return false;
@@ -110,17 +112,18 @@ public class listAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수.
-    public void addItem(Drawable icon, String title, String desc, int check) {
+    public void addItem(Drawable icon, String title,int check, String desc, String id, String name) {
         listItem item = new listItem();
 
         item.setIcon(icon);
         item.setTitle(title);
         item.setCheck(check);
-
+        pid = id;
+        pname = name;
         listItemList.add(item);
     }
     //php를 통해 DB와 연동하여 리스트를 삭제하는 함수
-    private void DeleteToDatabase(String pid,String pName) {
+    private void DeleteToDatabase(String PID,String PName, String ListName) {
         class DeleteData extends AsyncTask<String, Void, String> { // 비동기 클래스
             @Override
             protected void onPreExecute() {
@@ -133,12 +136,13 @@ public class listAdapter extends BaseAdapter {
             @Override
             protected String doInBackground(String... params) {
 
-                String id = (String) params[0]; // 회원의 아이디
-                String name = (String) params[1]; // 리스트의 이름
-                String data = "pid="+ id +"&listname=" + name; // 2개의 정보를 php에 넘겨줌
+                String PID= (String) params[0]; // 회원의 아이디
+                String PName = (String) params[1]; // 프로젝트 이름
+                String ListName = (String) params[2]; // 리스트의 이름
+                String data = "PID="+ PID +"&PNam" + PName +"&listname=" + ListName; // 2개의 정보를 php에 넘겨줌
                 try {
                     // httpURLConnection을 통해 data를 가져온다.
-                    URL url = new URL("http://13.124.77.84/deleteProject.php"); // 서버의 php 파일에 연결
+                    URL url = new URL("http://13.124.77.84/deleteList.php"); // 서버의 php 파일에 연결 //@@@@@@@
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
                     httpURLConnection.setReadTimeout(5000);
@@ -188,6 +192,6 @@ public class listAdapter extends BaseAdapter {
             }
         }
         DeleteData task = new DeleteData();
-        task.execute(pid,pName); // 실행
+        task.execute(PID, PName, ListName); // 실행
     }
 }
