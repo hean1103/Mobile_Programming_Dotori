@@ -74,7 +74,8 @@ public class listViewAdapter extends BaseAdapter {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.one: //프로젝트를 메인에 고정하는 기능
-                                Toast.makeText(context,"고정 이벤트 추가하기" ,Toast.LENGTH_SHORT).show();
+                                MainActivity main = new MainActivity();
+                                main.setProjectName(pname);
                                 break;
                             case R.id.two: // 프로젝트의 정보를 수정하는 기능
                                 Intent intent = new Intent(context,SettingProjectActivity.class);

@@ -1,10 +1,13 @@
 package com.example.Mobile_Programming_Dotori;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,11 +15,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static android.content.ContentValues.TAG;
+
 public class MainFragment extends Fragment {
 
     String id;
     String userImg = "squirrel_";
     String userListNumStr ;
+    public String data[] ;
+    public int totalNum , checkNum=0;
+    public String PName;
 
     //메인액티비티로부터 bundle을 사용하여 데이터를 받아옴
     public static MainFragment newInstance(String param) {
@@ -35,8 +54,11 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             id = getArguments().getString("userid");
         }
-
+        MainActivity main = new MainActivity();
+        PName = main.getProjectName();
         GetUserImg task = new GetUserImg();
+        MainFragment.get_data taskData = new MainFragment.get_data(); // 프로젝트 리스트들을 얻기 위한 객체
+        taskData.execute(id, PName); // 회원 아이디를 변수로 넘겨줌
         try {
             userImg = task.execute(id).get();
         } catch (Exception e) {
@@ -141,6 +163,95 @@ public class MainFragment extends Fragment {
         return v;
 
 
+    }
+    public class get_data extends AsyncTask<String, Void, String> {  // 비동기 클래스
+        protected void onPreExecute() { // 실행전 수행되는 함수
+        }
+
+        @Override
+        protected String doInBackground (String...params){
+            try {
+                String id = params[0];
+                String pname = params[1];
+                String uri = "http://13.124.77.84/getlistnum.php?PID="+id+"&PName=" +pname; // 회원 아이디를 변수로 php에 넘겨줌
+                URL url = new URL(uri);
+                Log.i("=========================", uri);
+                // httpURLConnection을 통해 data를 가져온다.
+                HttpURLConnection httpsURLConnection = (HttpURLConnection) url.openConnection();
+                httpsURLConnection.setRequestMethod("GET");
+                httpsURLConnection.setReadTimeout(5000);
+                httpsURLConnection.setConnectTimeout(5000);
+                httpsURLConnection.connect();
+                // php문 응답 코드 확인하기
+                int responseStatusCode = httpsURLConnection.getResponseCode();
+                Log.d(TAG, "response code - " + responseStatusCode);
+
+                InputStream inputStream;
+                // php문으로부터 온 응답코드가 200일 경우
+                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+                    inputStream = httpsURLConnection.getInputStream();
+                    Log.i("http상태 코드 : " , "HTTP_OK");
+                }
+                else{
+                    inputStream = httpsURLConnection.getErrorStream();
+                    Log.i("http상태 코드 : " , "NOT HTTP_OK");
+                }
+                // 요청 결과물 받기
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
+                StringBuilder sb = new StringBuilder();
+                String line;
+
+                //php문 결과 내용 가져오기 라인으로 받아오기
+                while((line = bufferedReader.readLine()) != null){
+                    sb.append(line);
+                }
+
+                bufferedReader.close();
+                // 실행 결과 확인 Log
+                Log.i("실행 결과 : ", sb.toString());
+                // onPostExecute로 결과값 전달
+                return sb.toString().trim();
+
+            } catch (MalformedURLException e) {
+                return e.getMessage();
+            } catch (IOException e) {
+                Log.e("log_tag1", "Error converting result "+e.toString());
+                return e.getMessage();
+            }
+        }
+
+
+        @Override
+        protected void onPostExecute(String result){
+            //  json data 분석
+            try {
+                //php문의 결과를 배열로 받아옴
+                JSONArray jsonArray = new JSONArray(result);
+                JSONObject jsonObject = null;
+                data = new String[jsonArray.length()]; // 배열의 길이만큼 크기 선언
+
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    // 배열을 하나씩 객체로 받아 그 안의 PName이라고 저장되있는 값을 data배열에 넣어줌 == 프로젝트 이름
+                    jsonObject = jsonArray.getJSONObject(i);
+                    data[i] = jsonObject.getString("CheckBox"); // column name
+                    // 프로젝트 이름 확인 Log
+                    Log.i("php 내용 가져오기 : ", data[i]);
+                }
+                totalNum = data.length;
+                for (int k = 0 ; k < data.length ; k++){
+                    if(data[k].equals("1")) {
+                        checkNum += 1;
+                    }
+                }
+                Log.i("체크 갯수 ", checkNum + "==!");
+                Log.i("전체 갯수 ", totalNum + "==!");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
