@@ -122,11 +122,7 @@ public class NewProjectActivity extends AppCompatActivity {
                 } else {
                     // 새로운 프로젝트 정보를 DB에 넣기 위한 기능 ( ID와 프로젝트 이름, 시작 날짜, 종료 날짜를 매개변수로 설정)
                     insertoToDatabase(id,tmp_name,tmp_from,tmp_to);
-                    FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    setContentView(R.layout.activity_main);
-                    fragmentTransaction.replace(R.id.frame_layout, projectFragment.newInstance(id)); // 추가가 끝난 후 프래그먼트를 업데이트 시키기 위한 코드
-                    fragmentTransaction.commit();
+                    finish();
                 }
             }
         });
