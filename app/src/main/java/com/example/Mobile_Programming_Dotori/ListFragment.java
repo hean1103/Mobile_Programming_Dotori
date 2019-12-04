@@ -36,7 +36,7 @@ public class ListFragment extends Fragment {
     //    SharedPreferences pref = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
     //final String id = pref.getString("Globalid","");
 
-    String PName = "aaa";
+    String pname = "aaa";
     String id = "hean";
 
     ListView listview;
@@ -51,7 +51,7 @@ public class ListFragment extends Fragment {
         listview.setAdapter(adapter);
 
         get_data task = new get_data(); // 프로젝트 리스트들을 얻기 위한 객체
-        task.execute(id, PName); //@@@@@@@@@@
+        task.execute(id, pname); //@@@@@@@@@@
         FloatingActionButton fab = view.findViewById(R.id.fab_sub1); // 새로운 리스트 추가를 위한 + 버튼
         fab.setOnClickListener(new FABClickListener());
 
@@ -64,7 +64,7 @@ public class ListFragment extends Fragment {
         public void onClick(View v) {
             Intent intent = new Intent(getActivity(), NewListActivity.class); //회원아이디
             intent.putExtra("pid", id); // 아이디 넘기기 //@@@@@@@@@@@
-            intent.putExtra("pName", PName); // 프로젝트 이름 넘기기 //@@@@@@@@@@@
+            intent.putExtra("pName", pname); // 프로젝트 이름 넘기기 //@@@@@@@@@@@
             startActivity(intent);
         }
     }
@@ -151,11 +151,12 @@ public class ListFragment extends Fragment {
                 for (int k = 0; k < data.length; k++) {
                     //data 배열의 크기만큼 for문을 돌며 커스텀 listview 생성
                     adapter.addItem(ContextCompat.getDrawable(getActivity(), R.drawable.menu),
-                            data[k], "Account Circle Black 36dp", checkData[k]);
+                            data[k],checkData[k], "Account Circle Black 36dp",id, pname);
 
-                    /*if(checkData[k]==1){
+                    if(checkData[k]==1){
                         listNum++;
-                    }*/
+                    }
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();
