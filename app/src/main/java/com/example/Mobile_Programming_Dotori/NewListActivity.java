@@ -75,7 +75,7 @@ public class NewListActivity extends AppCompatActivity {
         });
     }
     //서버의 PHP문을 사용하여 DB에 데이터를 삽입하는 함수
-    private void insertoToDatabase(String pid, String name, String listName, String memo) {
+    private void insertoToDatabase(String PID, String PName, String ListName, String Memo) {
         class InsertData extends AsyncTask<String, Void, String> { // 비동기 클래스
             ProgressDialog loading; // 로딩 작업
             @Override
@@ -92,15 +92,16 @@ public class NewListActivity extends AppCompatActivity {
             }
             @Override
             protected String doInBackground(String... params) {
-                String id = (String) params[0];
-                String name = (String) params[1];
-                String listname = (String) params[2];
-                String memo = (String) params[3];
+                String PID = (String) params[0];
+                String PName = (String) params[1];
+                String ListName = (String) params[2];
+                String Memo = (String) params[3];
                 // 회원 아이디와 프로젝트 이름, 리스트 이름, 메모를 변수로 넘겨줌
-                String data = "pid="+ id +"&PName=" + name + "&listname=" + listname +"&memo=" + memo;
+                String data = "PID="+ PID +"&PName=" + PName + "&ListName=" + ListName +"&Memo=" + Memo;
                 try {
                     //서버의 php문에 연결
-                    URL url = new URL("http://13.124.77.84/getProject.php"); //@@@@@@@링크
+                    URL url = new URL("http://13.124.77.84/getList.php");
+
                     // httpURLConnection을 통해 data를 가져온다.
                     HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
@@ -154,7 +155,7 @@ public class NewListActivity extends AppCompatActivity {
         }
         //DB 삽입 실행 객체
         InsertData task = new InsertData();
-        task.execute(pid,name,listName,memo);
+        task.execute(PID, PName, ListName, Memo);
     }
 
 }
