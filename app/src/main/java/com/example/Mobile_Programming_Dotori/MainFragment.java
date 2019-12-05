@@ -31,7 +31,8 @@ public class MainFragment extends Fragment {
     String id;
     String userImg = "squirrel_";
     public String data[] ;
-    public int totalNum ,checkNum ;
+    public int totalNum= 1;  
+    public int checkNum = 0 ;
     public int totalNum1 =10;
     public int  checkNum1 = 3;
     public String PName;
