@@ -105,48 +105,48 @@ public class MainFragment extends Fragment {
         //                character.startAnimation(anim);
 
         // 이동거리
-//        switch (userListNumStr){
-//            case "0":
-//                Animation anim0 = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_anim0);
-//                character.startAnimation(anim0);
-//                break;        
-//            case "1":
-//                Animation anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.translate_anim1);
-//                character.startAnimation(anim);
-//                break;
-//            case "2":
-//                Animation anim2 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim2);   // 에니메이션 설정 파일
-//                character.startAnimation(anim2);
-//                break;
-//            case "3":
-//                Animation anim3 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim3);   // 에니메이션 설정 파일
-//                character.startAnimation(anim3);
-//                break;
-//            case "4":
-//                Animation anim4 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim4);   // 에니메이션 설정 파일
-//                character.startAnimation(anim4);
-//                break;
-//            case "5":
-//                Animation anim5 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim5);   // 에니메이션 설정 파일
-//                character.startAnimation(anim5);
-//                break;
-//            case "6":
-//                Animation anim6 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim6);   // 에니메이션 설정 파일
-//                character.startAnimation(anim6);
-//                break;
-//            case "7":
-//                Animation anim7 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim7);   // 에니메이션 설정 파일
-//                character.startAnimation(anim7);
-//                break;
-//            case "8":
-//                Animation anim8 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim8);   // 에니메이션 설정 파일
-//                character.startAnimation(anim8);
-//                break;
-//            case "9":
-//                Animation anim9 = AnimationUtils.loadAnimation (getApplicationContext(), R.anim.translate_anim9);   // 에니메이션 설정 파일
-//                character.startAnimation(anim9);
-//                break;
-//        }
+        switch (checkNum){
+            case 0:
+                Animation anim0 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim0);
+                character.startAnimation(anim0);
+                break;
+            case 1:
+                Animation anim1 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim1);
+                character.startAnimation(anim1);
+                break;
+            case 2:
+                Animation anim2 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim2);   // 에니메이션 설정 파일
+                character.startAnimation(anim2);
+                break;
+            case 3:
+                Animation anim3 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim3);   // 에니메이션 설정 파일
+                character.startAnimation(anim3);
+                break;
+            case 4:
+                Animation anim4 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim4);   // 에니메이션 설정 파일
+                character.startAnimation(anim4);
+                break;
+            case 5:
+                Animation anim5 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim5);   // 에니메이션 설정 파일
+                character.startAnimation(anim5);
+                break;
+            case 6:
+                Animation anim6 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim6);   // 에니메이션 설정 파일
+                character.startAnimation(anim6);
+                break;
+            case 7:
+                Animation anim7 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim7);   // 에니메이션 설정 파일
+                character.startAnimation(anim7);
+                break;
+            case 8:
+                Animation anim8 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim8);   // 에니메이션 설정 파일
+                character.startAnimation(anim8);
+                break;
+            case 9:
+                Animation anim9 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim9);   // 에니메이션 설정 파일
+                character.startAnimation(anim9);
+                break;
+        }
 
 
         return v;
