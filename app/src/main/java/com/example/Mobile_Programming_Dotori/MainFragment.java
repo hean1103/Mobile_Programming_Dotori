@@ -31,7 +31,9 @@ public class MainFragment extends Fragment {
     String id;
     String userImg = "squirrel_";
     public String data[] ;
-    public int totalNum , checkNum=0;
+    public int totalNum ,checkNum ;
+    public int totalNum1 =10;
+    public int  checkNum1 = 3;
     public String PName;
 
     //메인액티비티로부터 bundle을 사용하여 데이터를 받아옴
@@ -100,48 +102,50 @@ public class MainFragment extends Fragment {
                 break;
         }
 
-        // 이동거리
-        switch (checkNum){
-            case 0:
-                Animation anim0 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim0);
-                character.startAnimation(anim0);
-                break;
-            case 1:
-                Animation anim1 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim1);
-                character.startAnimation(anim1);
-                break;
-            case 2:
-                Animation anim2 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim2);   // 에니메이션 설정 파일
-                character.startAnimation(anim2);
-                break;
-            case 3:
-                Animation anim3 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim3);   // 에니메이션 설정 파일
-                character.startAnimation(anim3);
-                break;
-            case 4:
-                Animation anim4 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim4);   // 에니메이션 설정 파일
-                character.startAnimation(anim4);
-                break;
-            case 5:
-                Animation anim5 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim5);   // 에니메이션 설정 파일
-                character.startAnimation(anim5);
-                break;
-            case 6:
-                Animation anim6 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim6);   // 에니메이션 설정 파일
-                character.startAnimation(anim6);
-                break;
-            case 7:
-                Animation anim7 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim7);   // 에니메이션 설정 파일
-                character.startAnimation(anim7);
-                break;
-            case 8:
-                Animation anim8 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim8);   // 에니메이션 설정 파일
-                character.startAnimation(anim8);
-                break;
-            case 9:
+        // 체크된 리스트 / 전체 리스트 값의 퍼센트에 따라 캐릭터가 이동한다
+        // ex) 10퍼센트 이하면 anim1 만큼 이동
+        int num = 0;
+        num = (checkNum1*100)/totalNum1;
+
+        if(num==0) {
+            Animation anim0 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim0);
+            character.startAnimation(anim0);
+        }
+        else if(num<=10) {
+            Animation anim1 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim1);
+            character.startAnimation(anim1);
+        }
+        else if(num<=20) {
+            Animation anim2 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim2);   // 에니메이션 설정 파일
+            character.startAnimation(anim2);
+        }
+        else if(num<=30) {
+            Animation anim3 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim3);   // 에니메이션 설정 파일
+            character.startAnimation(anim3);
+        }
+        else if(num<=40) {
+            Animation anim4 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim4);   // 에니메이션 설정 파일
+            character.startAnimation(anim4);
+        }
+        else if(num<=50) {
+            Animation anim5 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim5);   // 에니메이션 설정 파일
+            character.startAnimation(anim5);
+        }
+        else if(num<=60) {
+            Animation anim6 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim6);   // 에니메이션 설정 파일
+            character.startAnimation(anim6);
+        }
+        else if(num<=80) {
+            Animation anim7 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim7);   // 에니메이션 설정 파일
+            character.startAnimation(anim7);
+        }
+        else if(num<=90) {
+            Animation anim8 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim8);   // 에니메이션 설정 파일
+            character.startAnimation(anim8);
+        }
+        else if(num<=100) {
                 Animation anim9 = AnimationUtils.loadAnimation (getActivity(), R.anim.translate_anim9);   // 에니메이션 설정 파일
                 character.startAnimation(anim9);
-                break;
         }
 
         return v;
