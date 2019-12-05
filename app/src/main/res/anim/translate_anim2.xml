@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <translate xmlns:android="http://schemas.android.com/apk/res/android"
     android:duration="500"
-    android:fromXDelta="900"
-    android:fromYDelta="1700"
-    android:toXDelta="450"
-    android:toYDelta="1700"
+    android:fromXDelta="150"
+    android:fromYDelta="-100"
+    android:toXDelta="-250"
+    android:toYDelta="-100"
     android:fillAfter="true"
     android:fillEnabled="true"
     >
