@@ -33,8 +33,6 @@ public class MainFragment extends Fragment {
     public String data[] ;
     public int totalNum= 1;  
     public int checkNum = 0 ;
-    public int totalNum1 =10;
-    public int  checkNum1 = 3;
     public String PName;
 
     //메인액티비티로부터 bundle을 사용하여 데이터를 받아옴
@@ -106,7 +104,7 @@ public class MainFragment extends Fragment {
         // 체크된 리스트 / 전체 리스트 값의 퍼센트에 따라 캐릭터가 이동한다
         // ex) 10퍼센트 이하면 anim1 만큼 이동
         int num = 0;
-        num = (checkNum1*100)/totalNum1;
+        num = (checkNum*100)/totalNum;
 
         if(num==0) {
             Animation anim0 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim0);
