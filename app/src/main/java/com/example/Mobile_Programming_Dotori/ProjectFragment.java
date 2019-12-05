@@ -48,6 +48,9 @@ public class ProjectFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+
+        ft.detach(this).attach(this).commit();
 
         //로그인 한 유저 아이디를 메인액티비티로부터 받아옴
         if (getArguments() != null) {

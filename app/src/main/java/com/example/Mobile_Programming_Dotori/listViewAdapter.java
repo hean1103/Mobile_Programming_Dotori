@@ -3,6 +3,7 @@ package com.example.Mobile_Programming_Dotori;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
@@ -74,8 +75,11 @@ public class listViewAdapter extends BaseAdapter {
                     public boolean onMenuItemClick(MenuItem item) {
                         switch (item.getItemId()) {
                             case R.id.one: //프로젝트를 메인에 고정하는 기능
-                                MainActivity main = new MainActivity();
-                                main.setProjectName(pname);
+                                //프로젝트 이름 변수 공통으로 쓸수있게 하는 부분
+                                SharedPreferences pref = context.getSharedPreferences("pref",context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putString("Globalpname",pname);
+                                editor.commit();
                                 break;
                             case R.id.two: // 프로젝트의 정보를 수정하는 기능
                                 Intent intent = new Intent(context,SettingProjectActivity.class);
@@ -199,6 +203,4 @@ public class listViewAdapter extends BaseAdapter {
         DeleteData task = new DeleteData();
         task.execute(pid,pName); // 실행
     }
-
-
 }

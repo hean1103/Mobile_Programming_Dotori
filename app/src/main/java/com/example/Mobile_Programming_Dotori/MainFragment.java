@@ -1,5 +1,7 @@
 package com.example.Mobile_Programming_Dotori;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -34,6 +36,7 @@ public class MainFragment extends Fragment {
     public int totalNum= 1;  
     public int checkNum = 0 ;
     public String PName;
+    public String projectName = "Mobile_project";
 
     //메인액티비티로부터 bundle을 사용하여 데이터를 받아옴
     public static MainFragment newInstance(String param) {
@@ -52,8 +55,12 @@ public class MainFragment extends Fragment {
         if (getArguments() != null) {
             id = getArguments().getString("userid");
         }
-        MainActivity main = new MainActivity();
-        PName = main.getProjectName();
+
+        //공통으로 사용되는 프로젝트 이름 변수 불러오기
+        SharedPreferences pref = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+        final String temp_name = pref.getString("Globalpname","Mobile_project");
+        PName = temp_name;
+        Log.i("vmvmvmvmvm=================", PName);
         GetUserImg task = new GetUserImg();
         MainFragment.get_data taskData = new MainFragment.get_data(); // 프로젝트 리스트들을 얻기 위한 객체
 
@@ -241,6 +248,13 @@ public class MainFragment extends Fragment {
         protected void onPostExecute(String result){
 
         }
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+    public void setProjectName(String pname) {
+        projectName = pname;
     }
 
 }

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private StoreFragment storeFragment = new StoreFragment();
     private MainFragment mainFragment = new MainFragment();
     public String id ;
-    public String projectName = "Mobile_project";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +81,4 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public String getProjectName() {
-        return projectName;
-    }
-    public void setProjectName(String pname) {
-        projectName = pname;
-    }
 }
