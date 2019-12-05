@@ -56,9 +56,37 @@ public class MainFragment extends Fragment {
         PName = main.getProjectName();
         GetUserImg task = new GetUserImg();
         MainFragment.get_data taskData = new MainFragment.get_data(); // 프로젝트 리스트들을 얻기 위한 객체
-        taskData.execute(id, PName); // 회원 아이디를 변수로 넘겨줌
+
         try {
             userImg = task.execute(id).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        //  json data 분석
+        try {
+            String a = taskData.execute(id, PName).get(); // 회원 아이디를 변수로 넘겨줌
+            Log.i("===========", a);
+            //php문의 결과를 배열로 받아옴
+            JSONArray jsonArray = new JSONArray(a);
+            JSONObject jsonObject = null;
+            data = new String[jsonArray.length()]; // 배열의 길이만큼 크기 선언
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                // 배열을 하나씩 객체로 받아 그 안의 PName이라고 저장되있는 값을 data배열에 넣어줌 == 프로젝트 이름
+                jsonObject = jsonArray.getJSONObject(i);
+                data[i] = jsonObject.getString("CheckBox"); // column name
+                // 프로젝트 이름 확인 Log
+                Log.i("php 내용 가져오기 : ", data[i]);
+            }
+            totalNum = data.length;
+            for (int k = 0 ; k < data.length ; k++){
+                if(data[k].equals("1")) {
+                    checkNum += 1;
+                }
+            }
+            Log.i("체크 갯수 ", checkNum + "==!");
+            Log.i("전체 갯수 ", totalNum + "==!");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -105,6 +133,7 @@ public class MainFragment extends Fragment {
         // ex) 10퍼센트 이하면 anim1 만큼 이동
         int num = 0;
         num = (checkNum*100)/totalNum;
+        Log.i("===========num============", num+"");
 
         if(num==0) {
             Animation anim0 = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim0);
@@ -210,32 +239,7 @@ public class MainFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result){
-            //  json data 분석
-            try {
-                //php문의 결과를 배열로 받아옴
-                JSONArray jsonArray = new JSONArray(result);
-                JSONObject jsonObject = null;
-                data = new String[jsonArray.length()]; // 배열의 길이만큼 크기 선언
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    // 배열을 하나씩 객체로 받아 그 안의 PName이라고 저장되있는 값을 data배열에 넣어줌 == 프로젝트 이름
-                    jsonObject = jsonArray.getJSONObject(i);
-                    data[i] = jsonObject.getString("CheckBox"); // column name
-                    // 프로젝트 이름 확인 Log
-                    Log.i("php 내용 가져오기 : ", data[i]);
-                }
-                totalNum = data.length;
-                for (int k = 0 ; k < data.length ; k++){
-                    if(data[k].equals("1")) {
-                        checkNum += 1;
-                    }
-                }
-                Log.i("체크 갯수 ", checkNum + "==!");
-                Log.i("전체 갯수 ", totalNum + "==!");
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
 

@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private StoreFragment storeFragment = new StoreFragment();
     private MainFragment mainFragment = new MainFragment();
     public String id ;
-    public String projectName = "aaa";
+    public String projectName = "Mobile_project";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation_view);
         // 첫 화면 지정
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.frame_layout, mainFragment.newInstance(id)).commitAllowingStateLoss();
+        transaction.replace(R.id.frame_layout, projectFragment.newInstance(id)).commitAllowingStateLoss();
 
         // bottomNavigationView의 아이템이 선택될 때 호출될 리스너 등록
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
