@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -63,6 +61,7 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -100,9 +99,6 @@ public class MainFragment extends Fragment {
                 character.setImageResource(R.drawable.rabbit);
                 break;
         }
-
-        //        Animation anim = AnimationUtils.loadAnimation(getActivity(), R.anim.translate_anim1);
-        //                character.startAnimation(anim);
 
         // 이동거리
         switch (checkNum){
@@ -148,10 +144,7 @@ public class MainFragment extends Fragment {
                 break;
         }
 
-
         return v;
-
-
     }
     public class get_data extends AsyncTask<String, Void, String> {  // 비동기 클래스
         protected void onPreExecute() { // 실행전 수행되는 함수
